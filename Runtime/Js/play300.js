@@ -1,0 +1,1 @@
+document.write("<img src=\"http://s4.55.la/anonymous/banner/2018/01/09/17/10855614.gif\" border=\"0\">");

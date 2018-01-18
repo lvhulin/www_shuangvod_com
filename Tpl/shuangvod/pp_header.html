@@ -1,0 +1,48 @@
+<div class="topbar">
+    <span><a href="{$url_guestbook}">留言反馈</a></span>
+    <span class="br"><a href="javascript:void(0)" onclick="AddFavorite('{$sitename}',location.href)">收藏{$sitename}</a></span>
+    <span class="br"><a href="http://m.shuangvod.com/">{$sitename}手机版 <b>m.shuangvod.com</b></a></span>
+</div>
+<div class="header">
+    <div class="logo-box">
+        <div class="logo"><a href="{$root}"></a></div>
+        <div class="search-box">
+            <form id="ffsearch" name="ffsearch" method="post" action="{$root}index.php?s=vod-search">
+                <input type="text" name="wd" id="wd" class="search-input" value="{$wd}"/>
+                <input type="submit" value="搜索一下" class="search-submit"/>
+            </form>
+        </div>
+    </div>
+    <div class="nav">
+        <a <if condition="($list_id eq null) OR ($list_id gt 14)">class="on cur"</if> href="{$root}">首页</a>
+        <volist name="list_menu" id="ppvod">
+            <if condition="($ppvod['list_id'] eq 1) OR ($ppvod['list_id'] eq 3) OR ($ppvod['list_id'] eq 4)">
+                <volist name="ppvod.son" id="ppvod">
+                   <a href="{$ppvod.list_url}" <eq name="ppvod.list_id" value="$list_id">class="on cur"</eq><eq name="ppvod.list_id" value="$list_pid">class="on cur"</eq>>最新{$ppvod.list_name}</a>
+                </volist>
+            </if>
+            <if condition="($ppvod['list_id'] eq 3)">
+                <a <eq name="ppvod.list_id" value="$list_id">class="on cur"</eq> href="{:getlistname($ppvod['list_id'],'list_url')}">最新{$ppvod['list_name']}</a>
+            </if>
+            <if condition="($ppvod['list_id'] eq 4)">
+                <a <eq name="ppvod.list_id" value="$list_id">class="on cur"</eq> href="{:getlistname($ppvod['list_id'],'list_url')}">最新{$ppvod['list_name']}</a>
+            </if>
+        </volist>
+    </div>
+    <div class="query">
+        <div>
+        <?php
+            $listAs = ['国产电视剧'=>'国产剧', '香港电视剧'=>'港剧', '美国电视剧'=>'美剧', '台湾电视剧'=>'台湾剧', '日本电视剧'=>'日剧', '韩国电视剧'=>'韩剧', '泰国电视剧'=>'泰剧'];
+        ?>
+        <volist name="list_menu" id="ppvod">
+            <if condition="($ppvod['list_id'] eq 2)">
+                <volist name="ppvod.son" id="ppvod">
+                    <a href="{$ppvod.list_url}">最新<?php echo $listAs[$ppvod['list_name']] ?></a><span>|</span>
+                </volist>
+            </if>
+        </volist>
+            <a href="{:ff_mytpl_url('my_new.html')}">今日更新</a>
+        </div>
+    </div>
+</div>
+<div class="top960">{:getadsurl('top960')}</div>

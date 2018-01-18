@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html mip>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://c.mipcdn.com/static/v1/mip.css">
+    <link rel="canonical" href="http://m.shuangvod.com{$list_url}">
+    <php>
+        if ($list_name == '国产电视剧') {
+        $listName = '国产剧';
+        } else {
+        $listName = str_replace(['电视', '国', '香', '湾', '本'], '', $list_name);
+        }
+
+        if($list_id){
+        $vod_stars = ff_mysql_vod('cid:'.$list_id.';limit:6;order:vod_hits desc');
+        }
+    </php>
+    <title>最新{$listName}_{$listName}大全_{$listName}排行榜-{$sitename}</title>
+    <meta name="keywords" content="<notempty name="list_keywords">{$list_keywords}<else/>最新{$list_name},{$keywords}</notempty>">
+    <meta name="description" content="最新{$list_name}_{$list_name}大全_{$list_name}排行榜-{$sitename}">
+    <style mip-custom>
+        a,article,aside,body,button,cite,code,dd,del,div,dl,dt,em,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,html,img,input,legend,li,menu,nav,object,ol,p,pre,section,span,textarea,ul{margin:0;padding:0;outline:0}.navbar-header{padding-right:10px}li{list-style:none}.navbar-nav li{list-style:none}.navbar-header a{color:#ded6d6;padding-left:10px}ul.nav{padding-right:10px}ul.nav li a{border:1px solid #ddd;padding:5px}.header{background-color:#0c1a44;position:relative;z-index:1000}.header-inner{max-width:1000px;margin:0 auto;padding:10px 0}.examples-article{float:right;width:100%;position:relative;z-index:100}.examples-article ul{overflow:hidden;padding-right:10px;width:100%;box-sizing:border-box}.examples-article li{overflow:hidden;position:relative;float:left;display:block;width:33.333%;box-sizing:border-box}.examples-article li img{margin-left:10px}.examples-article li p{margin:5px auto;padding:0;font-size:.85rem;text-align:center}.examples-article li p.back{font-size:.85rem;position:absolute;left:0;bottom:20px;color:#FFF;background:rgba(0,0,0,.88);height:23px;line-height:23px;width:100%;margin-left:10px}.article-header h1{font-size:1.3rem;margin-bottom:10px;position:relative;padding:7px 0 0 7px;color:#76868c;line-height:1.5;font-weight:400;border-bottom:1px solid #ccc}.article-header{position:relative}.article-content{padding-right:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}.classpage{margin-top:0;overflow:hidden;border-bottom:1px solid #B5D9EE;border-left:1px solid #B5D9EE;border-right:1px solid #B5D9EE;height:100%}#classpage2{text-align:center}.middle2aa1{width:100%;float:left;background-color:#f9fcff;margin-bottom:12px}.middle2aa1_h{border-bottom:1px solid #B5D9EE;border-top:1px solid #B5D9EE}.middle2aa1_h .fl{width:90%;height:26px;line-height:26px;text-align:left;color:#2C602F;padding-left:29px;font-weight:700;font-size:14px}.middle2aa1_h .fl span{font-size:12px;float:right;line-height:25px;height:25px;color:#000;padding-right:14px;font-weight:400}.middle2aa1_h .fl a{text-decoration:none;color:#2C602F}.middle2aa1 ul{white-space:nowrap;list-style:none;margin-top:10px;padding-bottom:35px;margin-bottom:10px}.middle2aa1 ul li{float:left;width:30%;text-align:left;padding-top:9px;padding-bottom:7px;border-bottom:1px dashed #ddd;margin-left:10px;white-space:nowrap;overflow:hidden;font-family:"宋体"}
+    </style>
+    <!--noscript 用于JS禁用时页面加载-->
+    <noscript>
+        <style mip-officialrelease>
+            body {
+                -webkit-animation: none;
+                -moz-animation: none;
+                -ms-animation: none;
+                animation: none
+            }
+        </style>
+    </noscript>
+</head>
+<body class="layout-index">
+<div class="header">
+    <div class="mip-nav-wrapper">
+        <mip-nav-slidedown
+                data-id="bs-navbar"
+                class="mip-element-sidebar container"
+                data-showbrand="1"
+                data-brandname="双视影院">
+            <nav id="bs-navbar" class="navbar-collapse collapse navbar navbar-static-top">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="{$root}">首页</a>
+                    </li>
+                    <li>
+                        <span class="navbar-more">电影</span>
+                        <ul>
+                            <volist name="list_menu" id="ppvod">
+                                <if condition="($ppvod['list_id'] eq 1)">
+                                    <volist name="ppvod.son" id="ppvod">
+                                        <li> <a href="{$ppvod.list_url}">{$ppvod.list_name}</a> </li>
+                                    </volist>
+                                </if>
+                            </volist>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="navbar-more">电视剧</span>
+                        <ul>
+                            <volist name="list_menu" id="ppvod">
+                                <if condition="($ppvod['list_id'] eq 2)">
+                                    <volist name="ppvod.son" id="ppvod">
+                                        <li> <a href="{$ppvod.list_url}">{$ppvod.list_name}</a> </li>
+                                    </volist>
+                                </if>
+                            </volist>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{:getlistname(3,'list_url')}">动漫</a>
+                    </li>
+                    <li>
+                        <a href="{:getlistname(4,'list_url')}">综艺</a>
+                    </li>
+                    <li class="navbar-wise-close">
+                        <span id="navbar-wise-close-btn"></span>
+                    </li>
+                </ul>
+            </nav>
+        </mip-nav-slidedown>
+    </div>
+</div>
+
+<section class="examples-article">
+
+    <header class="article-header">
+        <h1 class="article-title">{$list_name}大全</h1>
+    </header>
+    <div class="article-content">
+        <ul>
+            <volist name="vod_stars" id="ppvod">
+                <li>
+                    <php>
+                        if(strpos($ppvod['vod_pic'], 'http://') !== false ||strpos($ppvod['vod_pic'], 'https://') !== false ){
+                        $vod_pic = $ppvod['vod_pic'];
+                        } else {
+                        $vod_pic = 'http://www.shuangvod.com/Uploads/'.$ppvod['vod_pic'];
+                        }
+                    </php>
+                    <a data-type="mip" data-title="{$ppvod.vod_name}" href="{$ppvod.vod_readurl}">
+                        <mip-img layout="fixed-height" width="125" height="145" src="{$vod_pic}"></mip-img>
+                        <p class="back">{$ppvod.list_name}</p>
+                        <p class="mip-img-subtitle">{$ppvod.vod_name}</p>
+                    </a>
+                </li>
+            </volist>
+        </ul>
+    </div>
+</section>
+<div class="classpage">
+    <php>$letters = ['A','B','C','D','E','F','G','H','I','J','L','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']</php>
+
+    <foreach name="letters" item="letter">
+        <php>
+            $vod_list = ff_mysql_vod('cid:'.$list_id.';letter:'.$letter.';limit:200;order:vod_addtime desc,vod_id desc');
+        </php>
+        <div id="classpage2">
+            <div class="middle2aa1">
+                <notempty name="vod_list">
+                    <div class="middle2aa1_h">
+                        <div class="fl"> <span><a href="#top" target="_self">TOP</a></span><a href="#A" id="A" target="_self">{$letter}</a> </div>
+                    </div>
+                    <ul>
+                        <volist name="vod_list" id="ppvod">
+                            <li><span>{$i}</span>
+                                <a data-type="mip" data-title="{$ppvod.vod_name}" href="{$ppvod.vod_readurl}">{$ppvod.vod_name}</a>
+                            </li>
+                        </volist>
+                    </ul>
+                </notempty>
+            </div>
+        </div>
+    </foreach>
+    <div id="classpage2">
+        <div class="middle2aa1">
+            <div class="middle2aa1_h">
+                <div class="fl"> <span><a href="#top" target="_self">TOP</a></span><a href="#A" id="A" target="_self">其他</a> </div>
+            </div>
+            <php>
+                $vod_list_other = ff_mysql_vod('cid:'.$list_id.';letter:0,1,2,3,4,5,6,7,8,9;limit:200;order:vod_addtime desc,vod_id desc');
+            </php>
+            <ul>
+                <volist name="vod_list_other" id="ppvod">
+                    <li><span>{$i}</span><a href="{$ppvod.vod_readurl}">{$ppvod.vod_name}</a></li>
+                </volist>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--百度统计组件，外链mip-stats-baidu.js TODO: 修改token值-->
+<mip-stats-baidu token="b48f85cc6b077bb792cb63d8f2b83853"></mip-stats-baidu>
+<!--mip 运行环境-->
+<script src="https://c.mipcdn.com/static/v1/mip.js"></script>
+<!--导航组件-->
+<script src="https://c.mipcdn.com/static/v1/mip-nav-slidedown/mip-nav-slidedown.js"></script>
+<!--百度统计组件 代码-->
+<script src="https://c.mipcdn.com/static/v1/mip-stats-baidu/mip-stats-baidu.js"></script>
+</body>
+</html>

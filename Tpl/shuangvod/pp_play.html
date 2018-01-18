@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<include file="pp:vod_title_play" />
+<include file="pp:style_header" />
+</head>
+<body>
+<div class="wrap">
+    <include file="pp:header" />
+</div>
+<div class="player">
+    <ul><li class="left">
+
+<script language="javascript">
+        var pp_link="/vodplay-{$vod_id}-(ppvod).html";var pp_vodname="{$vod_name}";;var pp_downqvod="";var pp_downgvod="";var pp_downpvod="";var pp_downweb9="";var pp_playad="/Public/Player/loadings/ad_loading.html";var pp_width=680;var pp_height=493;var pp_show=0;var vod_name="{$vod_name}";var list_name="<a href={$list_url}>{$list_name}</a>";var server_name="";var player_name="";var pp_serverurl="{$vod_play}";var pp_servername="{$vod_server}";var baiduexist="";var pp_play="{$vod_url}";var pp_plays=pp_serverurl.split('$$$');var sid=document.URL.match(/sid\-([0-9]+)\-/g)+"";sid=sid.replace('sid-','').replace('-','');var curplay=pp_plays[sid];</script>
+    <iframe border="0" name="qireplay" id="qireplay" src="/Public/Player/play.html" marginwidth="0" framespacing="0" marginheight="0" noresize="" vspale="0" style="z-index: 9998;" frameborder="0" height="518" scrolling="no" width="100%"></iframe>
+
+    </li><li class="right"></li></ul>
+</div>
+<div class="wrap">
+	<div class="play960">{:getadsurl('play960')}</div>
+    <if condition="C(url_html) eq 0">
+    <volist name="vod_playlist" id="ppvod">
+    <eq name="ppvod.playname" value="$vod_playname"><div class="box2">
+        <h3><div><span><a href="{:UU('Home-gb/show',array(id=>$vod_id),false,true)}" target="_blank">报错</a></span><a href="{$vod_playurl}">播放来源：{$ppvod.playername}</a></div></h3>
+        <div class="playlist"><volist name="ppvod['son']" id="ppvodson"><a href="{$ppvodson.playurl}" <eq name="ppvodson.playpath" value="$vod_playpath">class="on"</eq>>{$ppvodson.playname}</a></volist></div>
+    </div>
+    </eq></volist>
+    </if>
+    <div class="box2 vod_hot">
+        <h3><div>猜您喜欢</div></h3>
+        <ul class="hot wbox"><php>$hot_week = ff_mysql_vod('cid:'.$list_id.';limit:14;order:vod_hits_month desc,vod_addtime desc');</php>
+        <volist name="hot_week" id="ppvod"><li><p><a href="{$ppvod.vod_readurl}"><img class="lazy" data-original="{$ppvod.vod_picurl}" src="{$tpl}/style/images/js/blank.png" alt="{$ppvod.vod_name}" /></a></p><h4 class="space"><a href="{$ppvod.vod_readurl}">{$ppvod.vod_name|msubstr=0,12}</a></h4></li></volist></ul>
+    </div>   
+    <div class="blank"></div>
+    <include file="pp:footer" />  
+</div>
+</body>
+</html>

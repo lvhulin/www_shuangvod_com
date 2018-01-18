@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+<title>YouKu Player</title>
+</head>
+<body>
+<script language="javascript">
+        var wdurl = unescape(window.location.href);
+        var allargs = wdurl.split("&");
+		var url=allargs[1].split("a=")[1];
+        var wd=allargs[2].split("b=")[1];
+        var w=allargs[3].split("w=")[1];
+        var h=allargs[4].split("h=")[1];
+	document.write('<div id="youkuplayer" style="width:100%;height:'+h+'px;"></div>');
+</script>
+<script type="text/javascript" src="//player.youku.com/jsapi">
+		player = new YKU.Player('youkuplayer',{
+			styleid: '0',
+			client_id: '214165a1256f249b',
+			vid: url,
+			autoplay: true,
+			show_related: false,
+
+		});
+</script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>播放器</title>
+	<link rel="stylesheet" type="text/css" href="play.css">
+	<base target="_parent" />
+	<script language="javascript">
+	<!--
+	/*屏蔽所有的js错误*/
+	function killerrors() {
+		//return true;
+	}
+	window.onerror = killerrors;
+	//-->
+	</script>
+</head>
+<body>
+<script language="javaScript" type="text/javascript">
+   // var parentt=window.parent;
+	parent.pp_play=decodeURIComponent(parent.pp_play);
+	//var pp_com = parent.document.URL.split("-");
+	var URL = parent.document.URL.replace('123.com','');
+	URL = URL.match(/vodplay\-(.*)/g);
+	URL=new String(URL);
+	var pp_com = URL.match(/\d+.*/g)[0].match(/\d+/g);
+	var sid = parseInt(pp_com[1]);
+	var pid = parseInt(pp_com[2]);
+	var gourl = parent.pp_link;
+	var arr_play = parent.pp_play.split("$$$");
+	var arr_serverurl = decodeURIComponent(parent.pp_serverurl).split("$$$");
+	var arr_servername = parent.pp_servername.split("$$$");
+	var arr_url = decodeURIComponent(parent.pp_play).split("$$$");
+	var width = parent.pp_width;
+	var height = parent.pp_height;
+	var playerhtml = "";
+	var download_gvod = '/download/gvod.html###' + parent.pp_downgvod;
+	var play = arr_serverurl[sid];
+	var nexturl = gourl.replace("(ppvod)", "sid-" + sid + "-pid-" + (pid+1));
+	var prevturl = gourl.replace("(ppvod)", "sid-" + sid + "-pid-0");
+	var nextpath;
+	var serverurl = arr_serverurl[sid];
+	var baiduexist=parent.baiduexist;
+	var urls = arr_url[sid].split("+++");
+	var urlname = urls[pid].split("++")[0];
+	var url = urls[pid].split("++")[1];
+	console.log(url);
+	var uniondomains=parent.uniondomains;
+	var pp_show=parent.pp_show;
+	var pp_vodname=parent.pp_vodname;
+	var pp_playad=parent.pp_playad;
+	var pp_downqvod=parent.pp_downqvod;
+	var pp_downweb9=parent.pp_downweb9;
+	var bufferurl='/Public/Player/loadings/baiduhd_loading.html';
+	if (pid== (urls.length-1)) {
+		nextpath = "no"
+		nexturl = "javascript:alert('已经是最后一集！');";
+	} else {
+		nexturl = gourl.replace("(ppvod)", sid + "-" + (pid +1));
+		nextpath = serverurl + urls[pid + 1].split("++")[1]
+	}
+	if (pid > 0) {
+		prevturl = gourl.replace("(ppvod)", sid + "-" + (pid-1))
+	}
+	var $$ = function(value) {
+		return document.getElementById(value)
+	}
+
+	if(play=='qiyi'){
+		document.write('<script type="text/javascript" src="//static.iqiyi.com/js/ext/video.js"></scr'+'ipt>');
+		document.write('<script type="text/javascript" src="'+play+'.js" type="text/javascript" ></scr'+'ipt>');
+	}
+	else if(play!='xigua'){
+		document.write('<script type="text/javascript" src="'+play+'.js?t=1212111" type="text/javascript" ></scr'+'ipt>');
+	}
+	//else{
+	//	document.write('<script type="text/javascript" src="'+play+'us.js" type="text/javascript" ></scr'+'ipt>');
+//	}
+	parent.document.title=parent.pp_vodname+urlname+"-"+getplayname(play)+"-双视影院";
+	//parent.document.getElementById("abcd").innerHTML=parent.pp_vodname+' '+urlname;
+	//alert(window.parent.location.href);
+    //parent.PlayHistoryObj.addPlayHistory(parent.pp_vodname+"|"+urlname,window.parent.location.href,window.parent.Cid);
+	if(parent.document.getElementById("playname")){
+		parent.document.getElementById("playname").innerHTML = getplayname(arr_play[sid]);
+	}
+	/*
+	if(play=='youku_new')
+	{
+		parent.document.getElementById('unlogo').src="//www.mianbao99.com/static/images/logo/youku.png";
+	}
+	else if(play=='youku'){
+		parent.document.getElementById('unlogo').src="//www.mianbao99.com/static/images/logo/putong.png";
+	}
+	else if(play=='tudou'){
+		parent.document.getElementById('unlogo').src="//www.mianbao99.com/static/images/logo/tudou.png";
+	}else if(play=='qiyi'){
+		parent.document.getElementById('unlogo').src="//www.mianbao99.com/static/images/logo/qiyi.png";
+	}else if(play=='sohu'){
+		parent.document.getElementById('unlogo').src="//www.mianbao99.com/static/images/logo/sohu.png";
+	}else{
+	parent.document.getElementById('unlogo').style.display="none";
+	}*/
+
+
+	function $ShowPlayer() {
+		if (pp_show == 1) {
+			var pp_show = 'block'
+		} else {
+			var pp_show = 'none'
+		}
+		document.write('<table border="0" cellpadding="0" cellspacing="0" class="table">');
+		document.write('<tr><td colspan="2" class="hd">');
+		document.write('<table style="border:0px;width:100%;text-align:center;"><tr>');
+		document.write('<td class="open-close"><a onClick="$Showlist();" style="cursor:pointer">展开/缩进选集</a></td>');
+		document.write('<td><div id="playppvod">' + pp_vodname + ' ' + urlname + '</div>');
+		document.write('</td>');
+		document.write('<td class="prev-next" style="width:180px;font-weight:bold"><a href="' + prevturl + '">上一集</a><a href="' + nexturl + '">下一集</a></td>');
+		document.write('</tr></table>');
+		document.write('</td></tr>');
+		document.write('<tr>');
+		document.write('<td id="u" valign="top" style="display:' + pp_show + ';">');
+		document.write('<div class="list" style="height:489px;overflow-y:auto;">');
+		$ShowPlaylist();
+		document.write('</div></td>');
+		document.write('<td id="p" valign="top" style="width:100%;height:' + height + 'px;overflow:hidden;">');
+		//if (play == 'qvod') {
+			//document.write('<div id="playad" style="display:none;"><iframe src="' + pp_playad + '" width="100%" height="' + (height - 59) + '" frameborder="0" scrolling="no" style="z-index:999;"></iframe></div>')
+		//}
+		if (play == 'pvod' || play == 'openv') {
+			document.write('<div id="playlist">' + $Showhtml() + '</div>')
+		}else if(play=='tudou' || play=='qiyi' || play == 'qq' || play == 'youku' || play == 'letv'){
+		document.write('<div id="playlist">' + playerhtml + '</div>');
+		}
+		else {
+			if(play=='xigua'){
+			document.writeln("<div id=\"xg_box\"></div>");
+			document.write('<script type="text/javascript" src="'+play+'.js?t=2334444vvv44433333" type="text/javascript" ></scr'+'ipt>');
+			}else{
+				document.write('<div id="playlist">' + playerhtml + '</div>');
+			}
+		}
+
+		document.write('</td>');
+		document.write('</tr>');
+		document.write('</table>');
+		//$Showppvod();
+	}
+	function tab(no, n) {
+		abc = document.getElementById('sub' + no).style.display;
+		for (var i = 1; i <= n; i++) {
+		    if(document.getElementById('main' + i)!=undefined&&document.getElementById('main' + i)!=null){
+			document.getElementById('main' + i).className = 'expand';
+			document.getElementById('sub' + i).style.display = 'none';
+			}
+		}
+		if (abc == 'none') {
+			document.getElementById('sub' + no).style.display = 'block';
+			document.getElementById('main' + no).className = 'expand_on'
+		} else {
+			document.getElementById('sub' + no).style.display = 'none'
+		}
+	}
+	function $Showlist() {
+		var state = document.getElementById("u");
+		if (state.style.display == "none") {
+			state.style.display = ""
+		} else {
+			state.style.display = "none"
+		}
+	}
+
+	function $ShowPlaylist() {
+
+		var count_play = arr_play.length;
+
+		var i = 1;
+		for (i = 1; i <= count_play; i++) {
+			//if((baiduexist=='1'&&(arr_serverurl[(i - 1)]!='tqvod'&&arr_serverurl[(i - 1)]!='gvod'))||baiduexist==''){
+			if(arr_serverurl[(i - 1)]!='gvod'&&arr_serverurl[(i - 1)]!='baofeng'){
+			var j = 0;
+			var count_urls = arr_url[(i - 1)].split("+++");
+			var sid_on;
+			var sub_on;
+
+			if (sid == (i - 1)) {
+				sid_on = 'expand_on';
+				sub_on = 'block';
+			} else {
+				sid_on = 'expand';
+				sub_on = 'none';
+			}
+
+			document.write('<div id="main' + i + '" onclick="tab(' + i + ',' + count_play + ')" class="' + sid_on + '"><div class="title">' + arr_servername[(i - 1)] + '</div></div>')
+
+			document.write('<div id="sub' + i + '" style="display:' + sub_on + '" class="expand_sub"><ul>');
+
+			for (j = 0; j < count_urls.length; j++) {
+
+				var href = gourl.replace("(ppvod)", (i - 1) + "-" + j);
+				var li_on;
+
+				if (sid == (i - 1) && pid == j) {
+					li_on = ' class="list_on"';
+				} else {
+					li_on = '';
+				}
+				if(arr_serverurl[(i - 1)]=='qiyi'){
+				 document.write('<li><a href="//www.shuangvod.com' + href + '" ' + li_on + '>' + count_urls[j].split("++")[0].replace('第','').replace('集','') + '</a></li>');
+				}
+				else if(arr_serverurl[(i - 1)]=='tudou'){
+			     document.write('<li><a href="//www.shuangvod.com' + href + '" ' + li_on + '>' + count_urls[j].split("++")[0].replace('第','').replace('集','') + '</a></li>');
+				}
+				else{
+				document.write('<li><a href="//www.shuangvod.com' + href + '" ' + li_on + '>' + count_urls[j].split("++")[0].replace('第','').replace('集','') + '</a></li>');
+				}
+
+			}
+
+			document.write('</ul></div>');
+			}
+
+			//}
+		}
+
+	}
+	function getplayname(sid){
+
+		if(sid=='youku'){
+			return '优酷在线播放';
+		}
+
+		if(sid=='qiyi'){
+			return '奇艺在线播放';
+		}
+
+		if(sid=='m3u8'){
+			return '云在线播放';
+		}
+
+		if(sid=='qq'){
+			return 'qq视在线播放';
+		}
+
+		if(sid=='letv'){
+			return '乐视在线播放';
+		}
+
+		if(sid=='tudou'){
+			return '土豆在线播放';
+		}
+
+		if(sid=='youku_new'){
+			return '优酷在线播放';
+		}
+		if(sid=='xigua'){
+			return '西瓜影音在线播放';
+		}
+	}
+	</script><script language="javaScript" type="text/javascript">
+	$ShowPlayer();
+</script>
+</body>
+</html>

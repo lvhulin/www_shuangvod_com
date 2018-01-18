@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html mip>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://c.mipcdn.com/static/v1/mip.css">
+    <link rel="canonical" href="http://m.shuangvod.com{$vod_readurl}">
+    <?php
+    if ($list_name == '国产电视剧') {
+        $listName = '大陆剧';
+    } else {
+        $listName = str_replace(['片', '电视', '国', '香', '湾', '本'], '', $list_name);
+    }
+
+    $seoName = '';
+
+    if (strpos($vod_play, 'down') !== false || strpos($vod_play, 'bt') !== false || strpos($vod_play, 'magnet') !== false ) {
+        $seoName = '迅雷下载';
+    }
+
+    if (strpos($vod_play, 'xigua') !== false || strpos($vod_play, 'm3u8') !== false) {
+        $seoName .= '_在线观看';
+    }
+ ?>
+    <title><eq name="list_pid" value="2">{$vod_name}{$seoName}_{$listName}_</eq><eq name="list_pid" value="1">{$vod_name}迅雷下载_电影_</eq><eq name="list_id" value="3">{$vod_name}迅雷下载_动漫_</eq><eq name="list_id" value="4">{$vod_name}迅雷下载_综艺_</eq>{$sitename}</title>
+    <eq name="list_pid" value="2">
+        <meta name="keywords" content="{$vod_name}迅雷下载,{$vod_name}全集,{$vod_name}{$listName}">
+        <meta name="description" content="{$sitename}为您提供{$listName}{$vod_name}全集{$seoName},剧情介绍：{$vod_content|h|msubstr=0,100}">
+    </eq>
+    <eq name="list_pid" value="1">
+        <meta name="keywords" content="{$vod_name}高清,{$vod_name}{$listName},{$vod_name}迅雷下载">
+        <meta name="description" content="{$sitename}为您提供{$listName}{$vod_name}高清{$seoName}，剧情介绍：{$vod_content|h|msubstr=0,100}">
+    </eq>
+    <eq name="list_id" value="3">
+        <meta name="keywords" content="{$vod_name}迅雷下载">
+        <meta name="description" content="{$sitename}为您提供{$listName}{$vod_name}{$seoName}，剧情介绍：{$vod_content|h|msubstr=0,100}">
+    </eq>
+    <eq name="list_id" value="4">
+        <meta name="keywords" content="{$vod_name}迅雷下载">
+        <meta name="description" content="{$sitename}为您提供{$listName}{$vod_name}{$seoName}；介绍：{$vod_content|h|msubstr=0,100}">
+    </eq>
+    <style mip-custom>
+        a,article,aside,body,button,cite,code,dd,del,div,dl,dt,em,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,html,img,input,legend,li,menu,nav,object,ol,p,pre,section,span,textarea,ul{margin:0;padding:0;outline:0}.navbar-header{padding-right:10px}li{list-style:none}.navbar-nav li{list-style:none}.navbar-header a{color:#ded6d6;padding-left:10px}ul.nav{padding-right:10px}ul.nav li a{border:1px solid #ddd;padding:5px}.header{background-color:#0c1a44;position:relative;z-index:1000}.header-inner{max-width:1000px;margin:0 auto;padding:10px 0}.examples-article{float:right;width:100%;position:relative;z-index:100}.examples-article ul{overflow:hidden;padding-right:10px;width:100%;box-sizing:border-box}.examples-article li{overflow:hidden;position:relative;float:left;display:block;width:33.333%;box-sizing:border-box}.examples-article li img{margin-left:10px}.examples-article li p{margin:5px auto;padding:0;font-size:.85rem;text-align:center}.examples-article li p.back{font-size:.85rem;position:absolute;left:0;bottom:20px;color:#FFF;background:rgba(0,0,0,.88);height:23px;line-height:23px;width:100%;margin-left:10px}.article-header h1{font-size:1.3rem;margin-bottom:10px;position:relative;padding:7px 0 0 7px;color:#76868c;line-height:1.5;font-weight:400;border-bottom:1px solid #ccc}.article-header{position:relative}.article-content{padding-right:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}.info{overflow:hidden;padding:6px 10px 0 10px;color:#1A1A1A}.info h2{font-size:.875rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-bottom:1px solid #E8E8E8;padding-bottom:6px;margin-bottom:5px}.info a{font-size:.875rem;position:relative;display:inline-block;padding-right:5px;color:#e40011}.info h2 a{color:#000}.info ul{padding-top:4px;padding-bottom:0}.info li{font-size:.875rem;overflow:hidden;height:27px}.zpmy{font-size:.875rem;overflow:hidden;height:27px;white-space:nowrap;text-overflow:ellipsis}.title{position:relative;margin:0 10px;z-index:3;overflow:hidden}.title h2{float:left;font-size:1.125rem;margin:5px 0;margin-right:30px;color:#1A1A1A;line-height:35px;overflow:hidden}.list_wrap{clear:both;position:relative;z-index:1;margin-top:-1px;padding:10px 0 0 0;background:#F1F1F1;border-top:1px solid #DEDEDE}.list_second ul{overflow:hidden;padding:0 5px 0}.list_second li{padding:0 5px 10px;box-sizing:border-box}.list_wrap a,.list_wrap a:active,.list_wrap a:hover,.list_wrap a:link,.list_wrap a:visited{color:#616161}.list_second a{display:block;width:100%;background:#FFF;border:1px solid #D6D6D6;border-radius:3px;text-align:center;line-height:30px;-webkit-tap-highlight-color:rgba(72,175,242,.3)}.recommend{margin-bottom:10px;border-bottom:1px solid #E8E8E8}.recommend h2{font-size:1.125rem;color:#1A1A1A;margin-left:10px;padding-bottom:10px}.pt10{padding-top:11px;font-size:1.125rem}.reco_in{position:relative;padding:10px 0;background:#F1F1F1;border-top:1px solid #DEDEDE}.recommend .guess_you_jq{margin-left:10px;overflow:hidden;position:relative;height:100%;color:#000;font-size:1.1rem;padding-right:1px}.recommend .guess_you_like_wrapper{margin-left:10px;overflow:hidden;position:relative;height:152px}.recommend ul{white-space:nowrap;position:absolute}.recommend li{display:inline-block;margin-right:6px}.recommend a{position:relative;display:block;width:96px}.recommend li a:nth-child(2){font-size:.875rem;display:block;width:75px;padding-top:3px;color:#616161;text-overflow:ellipsis;white-space:nowrap;overflow:hidden}.recommend p{position:absolute;left:1px;bottom:1px;width:88px;height:18px;padding:0 4px;line-height:18px;background:rgba(0,0,0,.88);color:#fff;text-align:center}.recommend img{display:block;width:96px;height:130px;border:1px solid #E6E6E6;background:#D7D7D7;margin-right:5px}fieldset,img{border:0}
+    </style>
+    <!--noscript 用于JS禁用时页面加载-->
+    <noscript>
+        <style mip-officialrelease>
+            body {
+                -webkit-animation: none;
+                -moz-animation: none;
+                -ms-animation: none;
+                animation: none
+            }
+        </style>
+    </noscript>
+</head>
+<body class="layout-index">
+<div class="header">
+    <div class="mip-nav-wrapper">
+        <mip-nav-slidedown
+                data-id="bs-navbar"
+                class="mip-element-sidebar container"
+                data-showbrand="1"
+                data-brandname="双视影院">
+            <nav id="bs-navbar" class="navbar-collapse collapse navbar navbar-static-top">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="{$root}">首页</a>
+                    </li>
+                    <li>
+                        <span class="navbar-more">电影</span>
+                        <ul>
+                            <volist name="list_menu" id="ppvod">
+                                <if condition="($ppvod['list_id'] eq 1)">
+                                    <volist name="ppvod.son" id="ppvod">
+                                        <li> <a href="{$ppvod.list_url}">{$ppvod.list_name}</a> </li>
+                                    </volist>
+                                </if>
+                            </volist>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="navbar-more">电视剧</span>
+                        <ul>
+                            <volist name="list_menu" id="ppvod">
+                                <if condition="($ppvod['list_id'] eq 2)">
+                                    <volist name="ppvod.son" id="ppvod">
+                                        <li> <a href="{$ppvod.list_url}">{$ppvod.list_name}</a> </li>
+                                    </volist>
+                                </if>
+                            </volist>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{:getlistname(3,'list_url')}">动漫</a>
+                    </li>
+                    <li>
+                        <a href="{:getlistname(4,'list_url')}">综艺</a>
+                    </li>
+                    <li class="navbar-wise-close">
+                        <span id="navbar-wise-close-btn"></span>
+                    </li>
+                </ul>
+            </nav>
+        </mip-nav-slidedown>
+    </div>
+</div>
+
+<div id="sec_info" class="info">
+    <h2>当前位置：
+        <a data-type="mip" data-title="首页" href="{$root}">首页</a> &gt;
+        <a data-type="mip" data-title="{$list_name}" href="{$list_url}">{$list_name}</a> &gt;
+        <a data-type="mip" data-title="{$vod_name}" href="{$vod_readurl}">{$vod_name}</a>
+    </h2>
+    <ul>
+        <li>片名：{$vod_name}</li>
+        <li class="zpmy"><eq name="list_id" value="4">主持人：<else/>主演：</eq><notempty name="vod_actor">{$vod_actor}<else />未录入</notempty></li>
+        <li>类型：{$list_name} {$vod_mcid|ff_mcat_name}</li>
+        <li>更新：{$vod_addtime|date='Y-m-d',###}</li>
+        <li>下载工具：<a href="https://mobile.xunlei.com/iphone.html" target="_blank">迅雷iPhone</a> <a href="https://mobile.xunlei.com/index.html" target="_blank">迅雷Android</a> <a href="https://mobile.xunlei.com/ipad.html" target="_blank">迅雷iPad</a></li>
+    </ul>
+</div>
+
+<section class="wrap">
+
+    <notempty name="vod_playlist">
+        <volist name="vod_playlist" id="ppvod" key="playerkey">
+            <div class="title"><h2>{$ppvod.playername}</h2></div>
+            <div class="list_wrap">
+                <php>$countjii=count($ppvod['son'])-1;if($ppvod['son']>10){krsort($ppvod['son']);$count=count($ppvod['son']);}</php>
+                <div class="list_second">
+                    <ul>
+                        <volist name="ppvod['son']" id="ppvodson">
+                            <li><a href="{$ppvodson.playurl}" title="{$ppvodson.playname}">{$ppvodson.playname}</a></li>
+                        </volist>
+                    </ul>
+                </div>
+            </div>
+        </volist>
+    </notempty>
+
+    <notempty name="vod_downlist">
+        <volist name="vod_downlist" id="ppvod" key="playerkey">
+    <div class="title"><h2>{$ppvod.playername}</h2></div>
+    <div class="list_wrap">
+        <php>$countjii=count($ppvod['son'])-1;if($ppvod['son']>10){krsort($ppvod['son']);$count=count($ppvod['son']);}</php>
+        <div class="list_second">
+            <ul>
+                <volist name="ppvod['son']" id="ppvodson">
+                    <?php
+                        if (strpos($ppvodson['playpath'], 'thunder://') === false && strpos($ppvodson['playpath'], 'magnet:') === false) {
+                            $xldown = 'AA'.$ppvodson['playpath'].'ZZ';
+                            $ppvodson['playpath'] = 'thunder://'.base64_encode($xldown);
+                        }
+                    ?>
+                <li><a href="{$ppvodson.playpath}" title="{$ppvodson.playname}">{$ppvodson.playname}</a></li>
+                </volist>
+            </ul>
+        </div>
+    </div>
+    </volist>
+    </notempty>
+
+    <div id="sec_recommend" class="recommend">
+        <h2 class="pt10">剧情介绍</h2>
+        <div class="reco_in">
+            <div id="guess_you_jq" class="guess_you_jq">
+            	{$vod_content}
+            </div>
+        </div>
+    </div>
+    <div id="sec_recommend" class="recommend">
+        <h2>猜您喜欢</h2>
+        <php>
+            $mcid=str_replace(array('/','|',' ','，','、'),',',$vod_mcid);
+            $mcid=implode(',',array_slice(explode(',',$mcid),0,2));
+            $vod_gold=ff_mysql_vod('mcid:'.$mcid.';limit:4;field:vod_id,vod_name,vod_cid,vod_letters,vod_title,vod_gold,vod_pic,vod_gold,vod_total,vod_continu,vod_actor,vod_mcid,vod_addtime;order:vod_id desc');
+        </php>
+        <div class="reco_in">
+            <div id="guess_you_like_wrapper" class="guess_you_like_wrapper">
+                <ul id="guess_you_like_0">
+                    <volist name="vod_gold" id="ppvod">
+                    <li>
+                        <php>
+                            if(strpos($ppvod['vod_pic'], 'http://') !== false ||strpos($ppvod['vod_pic'], 'https://') !== false ){
+                            $vod_pic = $ppvod['vod_pic'];
+                            } else {
+                            $vod_pic = 'http://www.shuangvod.com/Uploads/'.$ppvod['vod_pic'];
+                            }
+                        </php>
+                        <a data-type="mip" data-title="{$ppvod.vod_name}" href="{$ppvod.vod_readurl}">
+                            <mip-img layout="fixed-height" width="125" height="145" src="{$vod_pic}"></mip-img>
+                            <p><span>{$ppvod.vod_name}</span></p>
+                        </a>
+                    </li>
+                    </volist>
+                      </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<mip-share title="{$list_name}-{$vod_name}{$seoName} - {$sitename}"></mip-share>
+
+<!--百度统计组件，外链mip-stats-baidu.js TODO: 修改token值-->
+<mip-stats-baidu token="b48f85cc6b077bb792cb63d8f2b83853"></mip-stats-baidu>
+
+<!--mip 运行环境-->
+<script src="https://c.mipcdn.com/static/v1/mip.js"></script>
+<!--导航组件-->
+<script src="https://c.mipcdn.com/static/v1/mip-nav-slidedown/mip-nav-slidedown.js"></script>
+<!--分享组件 代码-->
+<script src="https://c.mipcdn.com/static/v1/mip-share/mip-share.js"></script>
+<!--百度统计组件 代码-->
+<script src="https://c.mipcdn.com/static/v1/mip-stats-baidu/mip-stats-baidu.js"></script>
+</body>
+</html>

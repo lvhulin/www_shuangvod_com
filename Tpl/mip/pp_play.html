@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html mip>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://c.mipcdn.com/static/v1/mip.css">
+    <link rel="canonical" href="http://m.shuangvod.com{$vod_playurl}">
+    <title>《{$vod_name}》<eq name="list_pid" value="2">{$vod_playername}{$vod_jiname}在线观看<else />-电影{$vod_name}</eq>-{$sitename}</title>
+    <in name="list_pid" value="2,3">
+        <meta name="keywords" content="{$vod_name}{:str_replace(array('第','集'),array('',''),$vod_jiname)},{$vod_name}{$vod_jiname},{$vod_name}{$vod_jiname}在线观看,{$vod_name}全集{:str_replace(array('第','集'),array('',''),$vod_jiname)},电视剧{$vod_name}{$vod_jiname}">
+        <meta name="description" content="{$vod_name}高清在线观看 {$vod_name}电影 {$vod_name}下载 {$vod_name}演员表 {$vod_name}上映时间：{$vod_year} {$vod_name}剧情：{$vod_content|h|msubstr=0,100}">
+        <else />
+        <meta name="keywords" content="{$vod_name}下载,{$vod_name}在线观看,{$vod_name}高清下载,{$vod_name}qvod,{$vod_name}高清">
+        <meta name="description" content="{$vod_name}高清在线观看 {$vod_name}电影 {$vod_name}下载 {$vod_name}演员表 {$vod_name}上映时间：{$vod_year} {$vod_name}剧情：{$vod_content|h|msubstr=0,100}">
+    </in>
+    <style mip-custom>
+        a,article,aside,body,button,cite,code,dd,del,div,dl,dt,em,fieldset,figcaption,figure,footer,form,h1,h2,h3,h4,h5,h6,header,html,img,input,legend,li,menu,nav,object,ol,p,pre,section,span,textarea,ul{margin:0;padding:0;outline:0}.navbar-header{padding-right:10px}li{list-style:none}.navbar-nav li{list-style:none}.navbar-header a{color:#ded6d6;padding-left:10px}ul.nav{padding-right:10px}ul.nav li a{border:1px solid #ddd;padding:5px}.header{background-color:#0c1a44;position:relative;z-index:1000}.header-inner{max-width:1000px;margin:0 auto;padding:10px 0}.examples-article{float:right;width:100%;position:relative;z-index:100}.examples-article ul{overflow:hidden;padding-right:10px;width:100%;box-sizing:border-box}.examples-article li{overflow:hidden;position:relative;float:left;display:block;width:33.333%;box-sizing:border-box}.examples-article li img{margin-left:10px}.examples-article li p{margin:5px auto;padding:0;font-size:.85rem;text-align:center}.examples-article li p.back{font-size:.85rem;position:absolute;left:0;bottom:20px;color:#FFF;background:rgba(0,0,0,.88);height:23px;line-height:23px;width:100%;margin-left:10px}.article-header h1{font-size:1.3rem;margin-bottom:10px;position:relative;padding:7px 0 0 7px;color:#76868c;line-height:1.5;font-weight:400;border-bottom:1px solid #ccc}.article-header{position:relative}.article-content{padding-right:0}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}
+    </style>
+    <!--noscript 用于JS禁用时页面加载-->
+    <noscript>
+        <style mip-officialrelease>
+            body {
+                -webkit-animation: none;
+                -moz-animation: none;
+                -ms-animation: none;
+                animation: none
+            }
+        </style>
+    </noscript>
+</head>
+<body class="layout-index">
+<div class="header">
+    <div class="mip-nav-wrapper">
+        <mip-nav-slidedown
+                data-id="bs-navbar"
+                class="mip-element-sidebar container"
+                data-showbrand="1"
+                data-brandname="双视手机版">
+            <nav id="bs-navbar" class="navbar-collapse collapse navbar navbar-static-top">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="{$root}">首页</a>
+                    </li>
+                    <li>
+                        <span class="navbar-more">电影</span>
+                        <ul>
+                            <volist name="list_menu" id="ppvod">
+                                <if condition="($ppvod['list_id'] eq 1)">
+                                    <volist name="ppvod.son" id="ppvod">
+                                        <li> <a href="{$ppvod.list_url}">{$ppvod.list_name}</a> </li>
+                                    </volist>
+                                </if>
+                            </volist>
+                        </ul>
+                    </li>
+                    <li>
+                        <span class="navbar-more">电视剧</span>
+                        <ul>
+                            <volist name="list_menu" id="ppvod">
+                                <if condition="($ppvod['list_id'] eq 2)">
+                                    <volist name="ppvod.son" id="ppvod">
+                                        <li> <a href="{$ppvod.list_url}">{$ppvod.list_name}</a> </li>
+                                    </volist>
+                                </if>
+                            </volist>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="{:getlistname(3,'list_url')}">动漫</a>
+                    </li>
+                    <li>
+                        <a href="{:getlistname(4,'list_url')}">综艺</a>
+                    </li>
+                    <li class="navbar-wise-close">
+                        <span id="navbar-wise-close-btn"></span>
+                    </li>
+                </ul>
+            </nav>
+        </mip-nav-slidedown>
+    </div>
+</div>
+
+<section class="examples-article">
+    <script language="javascript">
+        var pp_link="/vodplay-{$vod_id}-(ppvod).html";var pp_vodname="{$vod_name}";;var pp_downqvod="";var pp_downgvod="";var pp_downpvod="";var pp_downweb9="";var pp_playad="/Public/Player/loadings/ad_loading.html";var pp_width=680;var pp_height=493;var pp_show=0;var vod_name="{$vod_name}";var list_name="<a href={$list_url}>{$list_name}</a>";var server_name="";var player_name="";var pp_serverurl="{$vod_play}";var pp_servername="{$vod_server}";var baiduexist="";var pp_play="{$vod_url}";var pp_plays=pp_serverurl.split('$$$');var sid=document.URL.match(/sid\-([0-9]+)\-/g)+"";sid=sid.replace('sid-','').replace('-','');var curplay=pp_plays[sid];</script>
+    <iframe border="0" name="qireplay" id="qireplay" src="/Public/Player/play.html" marginwidth="0" framespacing="0" marginheight="0" noresize="" vspale="0" style="z-index: 9998;" frameborder="0" height="518" scrolling="no" width="100%"></iframe>
+</section>
+
+<!--百度统计组件，外链mip-stats-baidu.js TODO: 修改token值-->
+<mip-stats-baidu token="b48f85cc6b077bb792cb63d8f2b83853"></mip-stats-baidu>
+<!--mip 运行环境-->
+<script src="https://c.mipcdn.com/static/v1/mip.js"></script>
+<!--导航组件-->
+<script src="https://c.mipcdn.com/static/v1/mip-nav-slidedown/mip-nav-slidedown.js"></script>
+<!--分享组件 代码-->
+<script src="https://c.mipcdn.com/static/v1/mip-share/mip-share.js"></script>
+<!--百度统计组件 代码-->
+<script src="https://c.mipcdn.com/static/v1/mip-stats-baidu/mip-stats-baidu.js"></script>
+</body>
+</html>
