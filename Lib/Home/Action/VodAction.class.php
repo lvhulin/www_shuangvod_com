@@ -43,6 +43,24 @@ class VodAction extends HomeAction{
 	// 影片内容页
     public function read(){
 		$array_detail = $this->get_cache_detail( intval($_GET['id']) );
+		$player = C('play_player');
+		$vod_play = explode('$$$', $array_detail['read']['vod_play']);
+		$vod_url = explode('$$$', $array_detail['read']['vod_url']);
+		$arrPlay = $arrUrl = [];
+		foreach ($vod_play as $k => $v) {
+			if (!in_array($v, ['down', 'bt', 'magnet'])) {
+				$arrPlay[] = $v;
+				$vod_url[$k] = str_replace('$', '++', $vod_url[$k]);
+				$arrUrl[] = str_replace(PHP_EOL, '+++', $vod_url[$k]);
+				$arrServer[] = $player[$v][1];
+			}
+		}
+
+		$array_detail['read']['vod_play'] = implode('$$$', $arrPlay);
+		$array_detail['read']['vod_url'] = urlencode(implode('$$$', $arrUrl));
+		$array_detail['read']['vod_server'] = implode('$$$', $arrServer);
+
+
 		if($array_detail){
 			$this->assign($array_detail['show']);
 			$this->assign($array_detail['read']);

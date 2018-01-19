@@ -489,6 +489,10 @@ ul.imgh4 li strong {
 	border-top: 0;
     border-left: 0;
     border-right: 0;
+    max-height: 700px;
+    _height: expression(this.scrollHeight > 700 ? "700px" : "auto");
+    overflow: auto;
+    overflow-x: hidden;
 }
 ul.downurl {
     list-style: none;

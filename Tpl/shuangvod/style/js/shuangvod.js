@@ -497,6 +497,8 @@ var FF = {
 				}
 
 			});
+		},
+		'setPage':function () {
 		}
 	}	
 }
@@ -530,7 +532,7 @@ function AddFavorite(title, url) {
 
 $(document).ready(function(){
 
-	//FF.History.playList();
+	FF.History.setPage();
 	//系统初始化
 	FF.Home.Js();
 	//延时加载

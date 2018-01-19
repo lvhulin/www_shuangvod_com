@@ -15,9 +15,7 @@
         $seoName = '迅雷下载';
     }
 
-    if (strpos($vod_play, 'xigua') !== false || strpos($vod_play, 'm3u8') !== false) {
-        $seoName .= '_在线观看';
-    }
+
  ?>
     <title><eq name="list_pid" value="2">{$vod_name}{$seoName}_{$listName}_</eq><eq name="list_pid" value="1">{$vod_name}迅雷下载_电影_</eq><eq name="list_id" value="3">{$vod_name}迅雷下载_动漫_</eq><eq name="list_id" value="4">{$vod_name}迅雷下载_综艺_</eq>{$sitename}</title>
     <eq name="list_pid" value="2">
@@ -92,29 +90,9 @@
 </div>
         <div class="vod_r">{:getadsurl('vod300')}</div>
     </div>
-<script charset="utf-8" src="{$tpl}/style/js/shuangvod_down.js"></script>
-    <notempty name="vod_playlist">
-        <div class="box2">
-        <volist name="vod_playlist" id="ppvod" key="playerkey">
-        <h3><div><if condition="($ppvod['playname'] eq xigua)">
-                <span><a target="_blank" href="/down/xiguan_faq.html">西瓜影音在线观看帮助</a></span>
-            </if>{$ppvod.playername}在线观看
-        </div></h3>
-        <div class="playlist wbox">
-            <php>$countjii=count($ppvod['son'])-1;if($ppvod['son']>10){krsort($ppvod['son']);$count=count($ppvod['son']);}</php>
-            <volist name="ppvod['son']" id="ppvodson" key="iii">
-                <a class="play-li" <gt name="iii" value="25">rel="h" style="display:none;"</gt> href="{$ppvodson.playurl}" target="_blank">{$ppvodson.playname}</a>
-            </volist>
-            <gt name="count" value="25">
-                <a class="play-li btn" href="javascript:void(0)" re="{$count}">查看全部{$count}集</a>
-            </gt>
-        </div>
-        <eq name="playerkey" value="1">
-        	<div class="vod960">{:getadsurl('vod960')}</div>
-        </eq>
-        </volist>
-	</div>
-    </notempty>
+<script charset="utf-8" src="{$tpl}style/js/shuangvod_down.js"></script>
+<script type="text/javascript" src="index.js"></script>
+    <div class="playlist wbox" style="display: none;" name="#play" id="player"></div>
     <notempty name="vod_downlist">
         <div class="box2">
             <volist name="vod_downlist" id="ppvod" key="playerkey">
@@ -123,7 +101,6 @@
                 </if>{$ppvod.playername}
                 </div></h3>
                 <div class="playlist wbox">
-                    <php>$countjii=count($ppvod['son'])-1;if($ppvod['son']>10){krsort($ppvod['son']);$count=count($ppvod['son']);}</php>
                     <if condition="($ppvod['playname'] eq down) OR ($ppvod['playname'] eq magnet)">
                         <div class="down_list">
                             <ul class="downurl" id="ul{$playerkey}">
@@ -148,8 +125,18 @@
                                     $downName = $prefix.$vName.$suffix;
                                 }
 
+                                $purl = 0;
+
+                                $arrPlay = array_values($vod_playlist);
+
+                                if (isset($arrPlay[0]['son'][($i-1)]) && !empty($arrPlay[0]['son'][($i-1)])) {
+                                    $purl = '0-'.($i-1);
+                                } else {
+                                   $purl = '';
+                                }
+
                                 ?>
-                                    <li id="li{$playerkey}_{$i-1}"><a href="{$ppvodson['playpath']}" title="{$ppvodson.playname}" target="_self">{$ppvodson.playname}</a></li>
+                                    <li id="li{$playerkey}_{$i-1}" data-id="{$purl}"><a href="{$ppvodson['playpath']}" title="{$ppvodson.playname}" target="_self">{$ppvodson.playname}</a></li>
                                 </volist>
                                 <script>echoDown({$playerkey});</script>
                             </ul>

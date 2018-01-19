@@ -71,7 +71,7 @@ class AllAction extends Action{
 		$array['vod_playlist'] = $urllist['play'];
 		$array['vod_downlist'] = $urllist['down'];
 		$array['vod_playcount'] = count($array['vod_playlist']);
-		$array['vod_player'] = 'var ff_urls=\''.$this->ff_playlist_json(array($array['vod_name'],$array_list[0]['list_name'],$array_list[0]['list_url']),$array['vod_playlist']).'\';';
+		//$array['vod_player'] = 'var ff_urls=\''.$this->ff_playlist_json(array($array['vod_name'],$array_list[0]['list_name'],$array_list[0]['list_url']),$array['vod_playlist']).'\';';
 		//按顺序排列
 		ksort($array['vod_playlist']);
 		$arrays['show'] = $array_list[0];

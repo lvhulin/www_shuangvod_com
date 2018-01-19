@@ -1299,6 +1299,12 @@ var BeyondDecode = function(str) {
         jQuery("#ul" + num + " li").each(function(i) {
             gurl[1] = jQuery(this).find("a:first").attr("href");
             fileName = jQuery(this).find("a:first").text();
+            var purl = jQuery(this).attr("data-id");
+            if (!purl) {
+                playUrl = '<a href=\"javascript:video(0);\" onclick=\"start(\'' + gurl[1] + '\')\" title="迅雷影音" target="_self">迅雷影音</a>';
+            } else {
+                playUrl = '<a href=\"javascript:video(0);\" onclick=\"onlinePlayer(\''+purl+'\')\" title="在线观看" target="_self">在线观看</a>'
+            }
 
             gurl[3] = jQuery(this).find("a").html();
             if (gurl[3].length > 56) {
@@ -1323,7 +1329,7 @@ var BeyondDecode = function(str) {
             var thunderUrl = isMagnet != '' ? isMagnet : gurl[1];
             gurl[2] = isMagnet != '' ? BeyondDecode(isMagnet) : gurl[2];
 
-            var innerStr = '<div class="shuangvod"><input type="checkbox" value=\"' + gurl[1] + '\"  name="CopyAddr' + num + '" style="vertical-align:middle" class="' + num + 'addr"/><div><span id="s' + num + 'p' + i + '">' + gurl[3] + '</span><input type="text" value="' + gurl[1] + '" style="vertical-align:middle" id="lin' + num + 'k' + i + '"/></div></div><div class="dwon_xl"><a target=\"_self\" href=\"' + thunderUrl + '\" thUrl=\"'+thunderUrl+'\" mc=\"\" title="迅雷下载" id="'+num+'thUrlid'+i+'" class="dwon'+num+'">迅雷下载</a></div><div class="dwon_tx"><a class=\"qq-down\" href=\"' + gurl[2] + '\" qhref=\"'+gurl[2]+'\" filename=\"\" title="旋风下载" target="_self">旋风下载</a></div><div class="dwon_xf"><a href=\"https://d.miwifi.com/d2r/?url=' + encode64(thunderUrl) + '\" title="小米下载">小米下载</a></div><div class="dwon_y"><a href=\"javascript:video(0);\" onclick=\"start(\'' + gurl[1] + '\')\" title="迅雷影音" target="_self">迅雷影音</a></div>';
+            var innerStr = '<div class="shuangvod"><input type="checkbox" value=\"' + gurl[1] + '\"  name="CopyAddr' + num + '" style="vertical-align:middle" class="' + num + 'addr"/><div><span id="s' + num + 'p' + i + '">' + gurl[3] + '</span><input type="text" value="' + gurl[1] + '" style="vertical-align:middle" id="lin' + num + 'k' + i + '"/></div></div><div class="dwon_xl"><a target=\"_self\" href=\"' + thunderUrl + '\" thUrl=\"'+thunderUrl+'\" mc=\"\" title="迅雷下载" id="'+num+'thUrlid'+i+'" class="dwon'+num+'">迅雷下载</a></div><div class="dwon_tx"><a class=\"qq-down\" href=\"' + gurl[2] + '\" qhref=\"'+gurl[2]+'\" filename=\"\" title="旋风下载" target="_self">旋风下载</a></div><div class="dwon_xf"><a href=\"https://d.miwifi.com/d2r/?url=' + encode64(thunderUrl) + '\" title="小米下载">小米下载</a></div><div class="dwon_y">'+playUrl+'</div>';
             gurl[0] = fileName;
             document.getElementById('li' + num + '_' + i).innerHTML = innerStr;
             var a = document.getElementById('s' + num + 'p' + i);
@@ -1333,6 +1339,14 @@ var BeyondDecode = function(str) {
         });
     }
 
+
+function onlinePlayer(uri)
+{
+    var player = '<iframe border="0" src="/Public/Player/play.html?'+uri+'" marginwidth="0" framespacing="0" marginheight="0" noresize="" vspale="0" style="z-index: 9998;" frameborder="0" height="518" scrolling="no" width="100%"></iframe>';
+    $('#player').empty().append(player);
+    $('#player').show();
+    $("html,body").animate({scrollTop:$("#player").offset().top},1000);
+}
 
 
 var tab_pf;

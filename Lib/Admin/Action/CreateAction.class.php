@@ -325,11 +325,35 @@ class CreateAction extends BaseAction{
 	//生成影视内容页
     public function vod_read_create($array){
 		$arrays = $this->Lable_Vod_Read($array);
+		$player = C('play_player');
+		$vod_play = explode('$$$', $arrays['read']['vod_play']);
+		$vod_url = explode('$$$', $arrays['read']['vod_url']);
+		$arrPlay = $arrUrl = [];
+		foreach ($vod_play as $k => $v) {
+			if (!in_array($v, ['down', 'bt', 'magnet'])) {
+				$arrPlay[] = $v;
+				$vod_url[$k] = str_replace('$', '++', $vod_url[$k]);
+				$arrUrl[] = str_replace(PHP_EOL, '+++', $vod_url[$k]);
+				$arrServer[] = $player[$v][1];
+			}
+		}
+
+		$arrays['read']['vod_play'] = implode('$$$', $arrPlay);
+		$arrays['read']['vod_url'] = urlencode(implode('$$$', $arrUrl));
+		$arrays['read']['vod_server'] = implode('$$$', $arrServer);
+		
+		$playJs =<<<EO
+    var pp_link="(ppvod)";var pp_vodname="{$arrays['read']['vod_name']}";var pp_downqvod="";var pp_downgvod="";var pp_downpvod="";var pp_downweb9="";var pp_playad="/Public/Player/loadings/ad_loading.html";
+    var pp_width=680; var pp_height=493;var pp_show=0;var vod_name="{$arrays['read']['vod_name']}";var list_name="<a href={$arrays['show']['list_url']}>{$arrays['show']['list_name']}</a>";
+    var server_name="";var player_name="";var pp_serverurl="{$arrays['read']['vod_play']}";var pp_servername="{$arrays['read']['vod_server']}";
+    var baiduexist="";var pp_play="{$arrays['read']['vod_url']}";var pp_plays=pp_serverurl.split('$$$');
+EO;
 		$this->assign($arrays['show']);
 		$this->assign($arrays['read']);
 		//生成内容页
 		$videodir = ff_data_url_dir('vod',$arrays['read']['vod_id'],$arrays['read']['vod_cid'],$arrays['read']['vod_name'],1,$arrays['read']['vod_pinyin']);
 		$this->buildHtml($videodir,'./',$arrays['read']['vod_skin_detail']);
+		write_file('./'.$videodir.'.js',$playJs);
 		echo('<li><a href="'.C('site_path').$videodir.C('html_file_suffix').'" target="_blank">'.$arrays['read']['vod_id'].'</a> detail ok</li>');
 		//生成播放页
 		if(C('url_html')){
