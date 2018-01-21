@@ -1,26 +1,100 @@
+<php>
+    if($list_id){
+    $vod_stars = ff_mysql_vod('cid:'.$list_id.';limit:14;order:vod_hits desc');
+    $vod_news = ff_mysql_vod('cid:'.$list_id.';limit:36;order:vod_addtime desc');
+    }
+</php>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>最新{$list_name}-{$list_dir}{$list_name_big}{$list_name}-2011最新{$list_name}</title>
-<meta name="keywords" content="<notempty name="list_keywords">{$list_keywords}<else/>最新{$list_name},{$keywords}</notempty>">
-<meta name="description" content="最新{$list_name}包含的影片有<volist name='vod_list' id='ppvod'>{$ppvod.vod_name|msubstr=0,10},</volist>完全免费在线观看！">
-<include file="Home:header" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>最新{$list_name}_{$list_name}大全_{$list_name}排行榜-{$sitename}</title>
+    <meta name="keywords" content="<notempty name="list_keywords">{$list_keywords}<else/>最新{$list_name},{$keywords}</notempty>">
+    <meta name="description" content="最新{$list_name}_{$list_name}大全_{$list_name}排行榜-{$sitename}">
+    <include file="pp:style_header" />
 </head>
 <body>
-<php>$vod_news = ff_mysql_vod('cid:'.$list_id.';limit:120;order:vod_addtime desc');</php>
 <div class="wrap">
-  <include file="pp:header" />
-    <div class="top960">{:getadsurl('top960')}</div>
-     <div class="box">
-       	<div class="top"><h3><span>今天到目前已更新<strong>{:getcount('.$list_id.')}</strong>部{$list_name}</span><a href="{$list_url}">最新更新的{$list_name}</a></h3></div>
-        <ul class="hang1"><volist name="vod_news" id="ppvod" mod="4">
-        <li><b>{$ppvod.vod_addtime|getcolordate='m-d',###}</b><a href="{$ppvod.vod_readurl}" title="{$ppvod.vod_name}">{$ppvod.vod_name|msubstr=0,8,'utf-8',true|getcolor=$ppvod['vod_color']}</a></li>
-    	<eq name="mod" value="0"></ul><in name="i" value="8,16,24,32,40,48,56,64,72,80,88,96,104,112"><ul class="hang1"><else /><ul class="hang2"></in></eq>
-    	</volist></ul>
+    <include file="pp:header" />
+    <div class="box">
+        <div class="top"><h3><a href="{$list_url}">最新{$list_name}</a><span><a class="space" href="/{$list_dir}/top50.html">{$list_name}榜单</a></span></h3></div>
+        <ul class="imgh4 index_stars"><volist name="vod_stars" id="ppvod"><li><p><a href="{$ppvod.vod_readurl}"><img class="lazy" data-original="{$ppvod.vod_picurl}" src="{$tpl}/style/images/js/blank.png" alt="{$ppvod.vod_name}" /></a></p><h5><a href="{$ppvod.vod_readurl}" title="{$ppvod.vod_name}">{$ppvod.vod_name}</a></h5></li></volist></ul>
+        </volist></ul>
     </div>
-  <include file="pp:footer" />       
+
+    <div class="box">
+        <div class="top"><h3><a>{$list_name}大全</a></h3></div>
+
+        <php>
+            $vod_news = array_chunk($vod_news, 4);
+            $total = count($vod_news);
+        </php>
+
+        <for start="0" end="$total">
+            <php> $mod = $i%2 </php>
+            <if condition="($mod eq 0)">
+                <ul class="hang2">
+                    <else />
+                    <ul class="hang1">
+            </if>
+            <?php
+             $data = $vod_news[$i];
+          ?>
+            <foreach name="data" item="ppvod">
+                <?php
+                if($ppvod['list_name'] == '国产电视剧') {
+                    $listName = '国产';
+                } else {
+                    $listName = str_replace(['片', '电视', '国', '香', '湾', '本'], '', $ppvod['list_name']);
+                }
+             ?>
+                <li><b>{$ppvod.vod_addtime|getcolordate='m-d',###}</b><a href="{$ppvod.vod_readurl}" title="{$ppvod.vod_name}">{$ppvod.vod_name|getcolor=$ppvod['vod_color']}</a></li>
+            </foreach>
+            </ul>
+        </for>
+    </div>
+
+
+    <div class="blank"></div>
+    <div class="classpage">
+        <php>$letters = ['A','B','C','D','E','F','G','H','I','J','L','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']</php>
+
+        <foreach name="letters" item="letter">
+            <php>
+                $vod_list = ff_mysql_vod('cid:'.$list_id.';letter:'.$letter.';limit:200;order:vod_addtime desc,vod_id desc');
+            </php>
+            <div id="classpage2">
+                <div class="middle2aa1">
+                    <notempty name="vod_list">
+                        <div class="middle2aa1_h">
+                            <div class="fl"> <span><a href="#top" target="_self">TOP</a></span><a href="#A" id="A" target="_self">{$letter}</a> </div>
+                        </div>
+                        <ul>
+                            <volist name="vod_list" id="ppvod">
+                                <li><span>{$i}</span><a href="{$ppvod.vod_readurl}">{$ppvod.vod_name}</a></li>
+                            </volist>
+                        </ul>
+                    </notempty>
+                </div>
+            </div>
+        </foreach>
+        <div id="classpage2">
+            <div class="middle2aa1">
+                <div class="middle2aa1_h">
+                    <div class="fl"> <span><a href="#top" target="_self">TOP</a></span><a href="#A" id="A" target="_self">其他</a> </div>
+                </div>
+                <php>
+                    $vod_list_other = ff_mysql_vod('cid:'.$list_id.';letter:0,1,2,3,4,5,6,7,8,9;limit:200;order:vod_addtime desc,vod_id desc');
+                </php>
+                <ul>
+                    <volist name="vod_list_other" id="ppvod">
+                        <li><span>{$i}</span><a href="{$ppvod.vod_readurl}">{$ppvod.vod_name}</a></li>
+                    </volist>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <include file="pp:footer" />
 </div>
-</body>
 </body>
 </html>

@@ -530,13 +530,55 @@ function AddFavorite(title, url) {
 	}
 }
 
+
+
+var isie6 = window.XMLHttpRequest ? false: true;
+function newtoponload() {
+	var c = document.getElementById("back-to-top");
+	function b() {
+		var a = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+		if (a > 0) {
+			if (isie6) {
+				c.style.display = "none";
+				clearTimeout(window.show);
+				window.show = setTimeout(function() {
+						var d = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+						if (d > 0) {
+							c.style.display = "block";
+							c.style.top = (500 + d) + "px"
+						}
+					},
+					300)
+			} else {
+				c.style.display = "block"
+			}
+		} else {
+			c.style.display = "none"
+		}
+	}
+	if (isie6) {
+		c.style.position = "absolute"
+	}
+	window.onscroll = b;
+	b()
+}
+if (window.attachEvent) {
+	window.attachEvent("onload", newtoponload)
+} else {
+	window.addEventListener("load", newtoponload, false)
+}
+/*document.getElementById("back-to-top").onclick = function() {
+	console.log('back-top-top');
+	window.scrollTo(0, 0)
+};*/
+
 $(document).ready(function(){
 
-	FF.History.setPage();
+	//FF.History.setPage();
 	//系统初始化
 	FF.Home.Js();
 	//延时加载
-	FF.Lazyload.Show();	
+	FF.Lazyload.Show();
 	//搜索联想
 	//FF.Suggest.Show('wd',12,Root+'index.php?s=plus-search-vod',Root+'index.php?s=vod-search-wd-');
 	//历史记录
@@ -548,5 +590,9 @@ $(document).ready(function(){
 	//评论初始化
 	//FF.Comment.Show(Root+"index.php?s=Cm-Show-sid-"+Sid+"-id-"+Id+"-p-1");
 	//积分初始化
-	FF.Gold.Default(Root+'index.php?s=Gold-'+FF.Home.Channel+'-id-'+Id);
+	//FF.Gold.Default(Root+'index.php?s=Gold-'+FF.Home.Channel+'-id-'+Id);
+	$('#back-to-top').click(function () {
+		window.scrollTo(0, 0)
+	});
 });
+

@@ -23,7 +23,7 @@
 <div class="wrap">
     <include file="pp:header" />
     <div class="box">
-        <div class="top"><h3><a href="{$list_url}">最新{$listName}</a><span><a href="/{$list_dir}/top50.html">{$listName}榜单</a></span></h3></div>
+        <div class="top"><h3><a href="{$list_url}">最新{$listName}</a><span><a class="space" href="/{$list_dir}/top50.html">{$listName}榜单</a></span></h3></div>
         <ul class="imgh4 index_stars"><volist name="vod_stars" id="ppvod"><li><p><a href="{$ppvod.vod_readurl}"><img class="lazy" data-original="{$ppvod.vod_picurl}" src="{$tpl}/style/images/js/blank.png" alt="{$ppvod.vod_name}" /></a></p><h5><a href="{$ppvod.vod_readurl}" title="{$ppvod.vod_name}">{$ppvod.vod_name}</a></h5></li></volist></ul>
         </volist></ul>
     </div>
@@ -62,6 +62,37 @@
 
 
     <div class="blank"></div>
+    <div class="letter">
+        <ul>
+            <li><a target="_self" href="#A">A</a></li>
+            <li><a target="_self" href="#B">B</a></li>
+            <li><a target="_self" href="#C">C</a></li>
+            <li><a target="_self" href="#D">D</a></li>
+            <li><a target="_self" href="#E">E</a></li>
+            <li><a target="_self" href="#F">F</a></li>
+            <li><a target="_self" href="#G">G</a></li>
+            <li><a target="_self" href="#H">H</a></li>
+            <li><a target="_self" href="#I">I</a></li>
+            <li><a target="_self" href="#J">J</a></li>
+            <li><a target="_self" href="#K">K</a></li>
+            <li><a target="_self" href="#L">L</a></li>
+            <li><a target="_self" href="#M">M</a></li>
+            <li><a target="_self" href="#N">N</a></li>
+            <li><a target="_self" href="#O">O</a></li>
+            <li><a target="_self" href="#P">P</a></li>
+            <li><a target="_self" href="#Q">Q</a></li>
+            <li><a target="_self" href="#R">R</a></li>
+            <li><a target="_self" href="#S">S</a></li>
+            <li><a target="_self" href="#T">T</a></li>
+            <li><a target="_self" href="#U">U</a></li>
+            <li><a target="_self" href="#V">V</a></li>
+            <li><a target="_self" href="#W">W</a></li>
+            <li><a target="_self" href="#X">X</a></li>
+            <li><a target="_self" href="#Y">Y</a></li>
+            <li><a target="_self" href="#Z">Z</a></li>
+            <li class="sz"><a target="_self" href="#其它">其它</a></li>
+        </ul>
+    </div>
     <div class="classpage">
         <php>$letters = ['A','B','C','D','E','F','G','H','I','J','L','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']</php>
 
@@ -73,7 +104,7 @@
             <div class="middle2aa1">
                 <notempty name="vod_list">
                 <div class="middle2aa1_h">
-                    <div class="fl"> <span><a href="#top" target="_self">TOP</a></span><a href="#A" id="A" target="_self">{$letter}</a> </div>
+                    <div class="fl"> <span><a href="#top" target="_self">TOP</a></span><a href="#{$letter}" id="{$letter}" target="_self">{$letter}</a> </div>
                 </div>
                 <ul>
                     <volist name="vod_list" id="ppvod">
@@ -87,7 +118,7 @@
         <div id="classpage2">
             <div class="middle2aa1">
                 <div class="middle2aa1_h">
-                    <div class="fl"> <span><a href="#top" target="_self">TOP</a></span><a href="#A" id="A" target="_self">其他</a> </div>
+                    <div class="fl"> <span><a href="#top" target="_self">TOP</a></span><a href="#其它" id="其它" target="_self">其他</a> </div>
                 </div>
                 <php>
                     $vod_list_other = ff_mysql_vod('cid:'.$list_id.';letter:0,1,2,3,4,5,6,7,8,9;limit:200;order:vod_addtime desc,vod_id desc');

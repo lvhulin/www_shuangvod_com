@@ -108,6 +108,10 @@ function changeCat(id,mcid){
     <td class="tr"><input type="text" name="vod_keywords" id="vod_keywords"  maxlength="255" value="{$vod_keywords}" class="w300 xy_tag ti_5"> <img src="__PUBLIC__/images/admin/edit.gif" onClick="javascript:showtags(1);" class="navpoint" ></td>
   </tr>
     <tr>
+        <td class="tl">影片合集：</td>
+        <td class="tr"><input type="text" name="vod_names" id="vod_names"  maxlength="255" value="{$vod_names}" class="w300 xy_tag ti_5"></td>
+    </tr>
+    <tr>
         <td class="tl">LOL下载采集：</td>
         <td class="tr"><input type="text" id="lolcj"  maxlength="255" value="" class="w500 xy_tag ti_5"> <span style="display: inline-block;width: 30px;height: 30px;background: #ccc;cursor: pointer;" id="lol">采集</span></td>
     </tr>
@@ -117,7 +121,7 @@ function changeCat(id,mcid){
     </tr>
     <tr>
         <td class="tl">豆瓣ID：</td>
-        <td class="tr"> <input type="text" name="vod_douid" id="douid" maxlength="20" value="{$vod_douid}" class="w100 ti_5" title="">&nbsp;<input type="text" name="vod_keywords" id="vod_keywords"  maxlength="255" value="{$vod_keywords}" class="w300 xy_tag ti_5"><span style="display: inline-block;width: 30px;height: 30px;background: #ccc;cursor: pointer;" id="dbcj">采集</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;百度指数：<input type="text" name="vod_baiid" id="bd_index" maxlength="20" value="{$vod_baiid}" class="w200"></td>
+        <td class="tr"> <input type="text" name="vod_douid" id="douid" maxlength="20" value="{$vod_douid}" class="w100 ti_5" title="">&nbsp;<input type="text" name="vod_keywords" id="vod_keywords"  maxlength="255" value="{$vod_keywords}" class="w300 xy_tag ti_5"><span style="display: inline-block;width: 30px;height: 30px;background: #ccc;cursor: pointer;" id="dbcj">采集</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;百度指数：<input type="text" name="vod_baiid" id="bd_index" maxlength="20" value="{$vod_baiid}" class="w200">&nbsp;&nbsp;豆瓣评分：<input type="text" name="vod_doupf" id="dou_pf" maxlength="20" value="{$vod_doupf}" class="w200"></td>
     </tr>
     <script language="javascript">
 	var $urln={:count($vod_url)};
@@ -150,6 +154,10 @@ function changeCat(id,mcid){
     <td class="tl">影片简介：</td>
     <td class="tr padding-5050" id="vod-content"><textarea name="vod_content" id="content" style="width:99%;height:300px;">{$vod_content}</textarea></td>
   </tr>
+    <tr>
+        <td class="tl">豆瓣影评：</td>
+        <td class="tr padding-5050" id="dou-jp"><textarea name="vod_doujp" id="djp" style="width:99%;height:300px;">{$vod_doujp}</textarea></td>
+    </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" class="table" id="tabs2" style="display:none">
   <tr>
@@ -234,7 +242,7 @@ function changeCat(id,mcid){
 <include file="./Public/system/footer.html" />
 <script type="text/javascript">
 
-   var cateJson = '{"大陆电视剧":"15","香港电视剧":"16","台湾电视剧":"17","美国电视剧":"18","韩国电视剧":"19","日本电视剧":"20","泰国电视剧":"21","动作片":"8","喜剧片":"9","爱情片":"10","科幻片":"11","恐怖片":"12","战争片":"13","剧情片":"14","动漫":"3","综艺":"4"}';
+   var cateJson = '{"大陆电视剧":"15","香港电视剧":"16","台湾电视剧":"17","美国电视剧":"18","韩国电视剧":"19","日本电视剧":"20","泰国电视剧":"21","动作片":"8","喜剧片":"9","爱情片":"10","科幻片":"11","恐怖片":"12","战争片":"13","剧情片":"14","动漫":"3","综艺":"4","经典动漫":"3"}';
 
     $(function () {
         $('#lol').click(function () {
@@ -290,7 +298,9 @@ function changeCat(id,mcid){
                     $('#vod_actor').val(res.vod_actor);
                     $('#vod_title').val(res.vod_title);
                     $('#vod_director').val(res.vod_director);
-                    $('#vod_pic').val(res.vod_pic);
+                    if(!$('#vod_pic').val()){
+                        $('#vod_pic').val(res.vod_pic);
+                    }
                     $('#vod_language').html('<option value="'+res.vod_language+'">'+res.vod_language+'</option>');
                     $('#vod_area').html('<option value="'+res.vod_area+'">'+res.vod_area+'</option>');
                     $('#vod_year').html('<option value="'+res.vod_year+'">'+res.vod_year+'</option>');
@@ -307,11 +317,6 @@ function changeCat(id,mcid){
                     changeCat(cateid, res.cidName);
 
 
-                    $('.mcid').each(function () {
-                        console.log($(this))
-                    });
-
-
                     var html = '';
                     html +='<tr>';
                     html +='<td class="tl">下载地址1<br /></td>';
@@ -321,6 +326,28 @@ function changeCat(id,mcid){
                     html +='<textarea name="vod_url[]" style="width:98%;height:150px;color:#333333">'+res.down+'</textarea></td>';
                     html +='</tr>';
                     $('#urllist').append(html);
+
+
+
+                    var urls = res.vod_url;
+                    var names = res.vod_play;
+                    var con = res.con;
+
+                    var html = '';
+                    $.each(urls, function (k, v) {
+
+                        html +='<tr>';
+                        html +='<td class="tl">下载地址'+(k+1)+'<br /></td>';
+                        html +='<td class="tr" style="padding-bottom:5px">';
+                        html +='<select name="vod_play[]" id="vod_play"><option value="'+names[k]+'">'+names[k]+'</select> ';
+                        html +='<label style=" color:#666666">注：自定义分集名称用"$"分隔，一行一集播放地址，留空则删除该组地址。</label><br>';
+                        html +='<textarea name=\'vod_url[]\' style="width:98%;height:150px;color:#333333">'+v+'</textarea></td>';
+                        html +='</tr>';
+
+                    });
+
+                    $('#urllist').append(html);
+
 
                     var con = '<textarea name="vod_content" id="content" style="width:99%;height:300px;">'+res.vod_content+'</textarea>';
 

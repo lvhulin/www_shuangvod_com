@@ -85,6 +85,11 @@ class XmlzanpianAction extends BaseAction{
 			foreach($json_data['listvod'] as $key=>$vod){
 				$array_vod_play = explode('$$$',$vod['vod_play']);
 				$array_vod_url = explode('$$$',$vod['vod_url']);
+				foreach ($array_vod_play as $k => $v) {
+					if (!in_array($v, ['xigua','m3u8', 'down'])) {
+						unset($array_vod_play[$k], $array_vod_url[$k]);
+					}
+				}
 				echo '<li>第<span>'.(($array_url['page']-1)*$json_data['page']['pagesize']+$key+1).'</span>个影片有<span>'.count($array_vod_play).'</span>组播放地址 ['.getlistname($vod['vod_cid']).'] '.$vod['vod_name'].' <font color="green">';
 				//有几组播放地址就添加几次
 				foreach($array_vod_play as $ii=>$value){

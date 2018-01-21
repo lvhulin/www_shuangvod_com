@@ -125,7 +125,7 @@ class CjAction extends BaseAction{
 		$url = $domains[$name].$url.'/';
 		$html = getfile($url);
 		$data = self::$name($html);
-//print_r($data);
+
 		echo json_encode($data);die;
 	}
 
@@ -296,16 +296,19 @@ class CjAction extends BaseAction{
 		$playFlag = '';
 		$playName = '';
 		$playUrl = '';
+		$domain = 'https://www.mianbao99.com/';
 
 		//匹配播放地址
 		if (preg_match('/<p\s+class="play-list(?:.*?)?"><a\s+target="_blank"\s+href="(.*?)">(?:.*?)<\/a><\/p>/', $html, $match)) {
 			$playUri = isset($match[1]) ? $match[1] : '';
-			$playHtml = file_get_contents($domain.$playUri);
+			$playHtml = ff_file_get_contents($domain.$playUri);
 			if (preg_match('/<script\s+language="javascript">(?:.*?)var\s+pp_serverurl="(.*?)"\;var\s+pp_servername="(.*?)"(?:.*?)var\s+pp_play="(.*?)"(?:.*?)<\/script>/is', $playHtml, $match)) {
 				$playFlag = $match[1];
 				$playName = $match[2];
 				$playUrl = $match[3];
 				$play = urldecode($playUrl);
+				$play = str_replace('+++', PHP_EOL, $play);
+				$play = str_replace('++', '$', $play);
 			} else {
 				$play = '';
 			}
@@ -328,6 +331,20 @@ class CjAction extends BaseAction{
 			$downUrl = '';
 		}
 
+
+
+		$playFlag = explode('$$$', $playFlag);
+		$play = explode('$$$', $play);
+
+		foreach ($playFlag as $k => $v) {
+			if (!in_array($v, ['down', 'xigua', 'm3u8', 'youku_new'])) {
+				unset($play[$k], $playFlag[$k]);
+			}
+		}
+
+		if (strpos($playFlag, 'youku_new') !== false) {
+			$playFlag = str_replace('youku_new', 'youku', $playFlag);
+		}
 
 		return [
 			'vod_name' => $name,

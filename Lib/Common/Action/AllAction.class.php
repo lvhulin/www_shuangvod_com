@@ -346,7 +346,7 @@ class AllAction extends Action{
 		$array['action'] = strtolower(ACTION_NAME);	
 		C('TOKEN_ON',false);//C('TOKEN_NAME','form_'.$array['model']);取消前端的表单令牌
 		$array['root'] = __ROOT__.'/';
-		$array['wapdomain'] = 'http://m.shuangvod.com/';
+		$array['wapdomain'] = 'http://m.shuangvod.com';
 		$array['upload_path'] = 'Uploads';
 		$array['tpl'] = $array['root'].str_replace('./','',C('VIEW_PATH').C('default_theme')).'/';
 		$array['css'] = '<link rel="stylesheet" type="text/css" href="'.$array['tpl'].'style.css">'."\n";

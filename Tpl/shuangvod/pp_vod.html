@@ -9,12 +9,7 @@
         $listName = str_replace(['片', '电视', '国', '香', '湾', '本'], '', $list_name);
     }
 
-    $seoName = '';
-
-    if (strpos($vod_play, 'down') !== false || strpos($vod_play, 'bt') !== false || strpos($vod_play, 'magnet') !== false ) {
-        $seoName = '迅雷下载';
-    }
-
+    $seoName = '迅雷下载';
 
  ?>
     <title><eq name="list_pid" value="2">{$vod_name}{$seoName}_{$listName}_</eq><eq name="list_pid" value="1">{$vod_name}迅雷下载_电影_</eq><eq name="list_id" value="3">{$vod_name}迅雷下载_动漫_</eq><eq name="list_id" value="4">{$vod_name}迅雷下载_综艺_</eq>{$sitename}</title>
@@ -34,7 +29,35 @@
         <meta name="keywords" content="{$vod_name}迅雷下载">
         <meta name="description" content="{$sitename}为您提供{$listName}{$vod_name}{$seoName}；介绍：{$vod_content|h|msubstr=0,100}">
     </eq>
-<include file="pp:style_header" />
+    <script type="text/javascript">var Root='{$root}';var Sid='{$sid}';var Cid='{$list_id}';<if condition="$sid eq 1">var Id='{$vod_id}';<else />var Id='{$news_id}';</if></script>
+    <script charset="utf-8" src="__PUBLIC__/jquery/jquery-1.7.2.min.js"></script>
+    <script charset="utf-8" src="{$tpl}style/js/shuangvod_down.js"></script>
+    <script charset="utf-8" src="__PUBLIC__/jquery/jquery.lazyload-1.8.4.js"></script>
+    <script charset="utf-8" src="{$tpl}style/js/shuangvod.js"></script>
+    <link rel="stylesheet" type="text/css" href="{$tpl}style/js.css">
+    <link rel="stylesheet" type="text/css" href="{$tpl}style/style.css">
+    <link rel="alternate" media="only screen and(max-width: 640px)" href="{$wapdomain}{$vod_readurl}" />
+    <base target="_blank" />
+    <script>
+        (function(){
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+    </script>
+
+    <script>(function(){
+        var src = (document.location.protocol == "http:") ? "http://js.passport.qihucdn.com/11.0.1.js?f1b1888de0594edf1c4dd2762734bb69":"https://jspassport.ssl.qhimg.com/11.0.1.js?f1b1888de0594edf1c4dd2762734bb69";
+        document.write('<script src="' + src + '" id="sozz"><\/script>');
+    })();
+    </script>
 </head>
 <body>
 <div class="wrap">
@@ -70,7 +93,12 @@
           </p>
           <p class="w">出产地区：<span>{$vod_area|default='未知'}</span>上映时间：{$vod_year|default='未录入'}</p>
           <p class="w">对白语言：<span>{$vod_language|default='未知'}</span>更新时间：{$vod_addtime|date='Y-m-d',###}</p>
-          <p class="up">请您打分：<include file="pp:vod_updown" /></p>
+            <notempty name="vod_doupf">
+                <p class="up doupf">豆瓣评分：<strong><a rel="nofloow" href="https://movie.douban.com/subject/{$vod_douid}/">{$vod_doupf}</a></strong></p>
+                <else/>
+                <p class="up">请您打分：<include file="pp:vod_updown" /></p>
+            </notempty>
+
           <p class="k"><div class="vod_r_tool">
             <div class="bdsharebuttonbox" data-tag="share_1">
                 <p class="els-ico" id="hony-share-services">
@@ -86,11 +114,26 @@
             with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
         </script>
     </div>
-          </p>
 </div>
         <div class="vod_r">{:getadsurl('vod300')}</div>
     </div>
-<script charset="utf-8" src="{$tpl}style/js/shuangvod_down.js"></script>
+
+<notempty name="vod_names">
+    <php>
+        $arrNames = explode('#', $vod_names);
+        $arrNames['name'] = $arrNames[0];
+        $ids = $arrNames[1];
+        $vodlist = ff_mysql_vod('ids:'.$ids);
+    </php>
+ <div class="box">
+ <ul class="hang1">
+     <volist name="vodlist" id="item">
+     <li><a title="{$item['vod_name']}" href="{$item['vod_readurl']}">{$item['vod_name']}</a></li>
+     </volist>
+ </ul>
+ </div>
+</notempty>
+
 <script type="text/javascript" src="index.js"></script>
     <div class="playlist wbox" style="display: none;" name="#play" id="player"></div>
     <notempty name="vod_downlist">
@@ -109,7 +152,7 @@
                                     $prefix = 'ftp://dy.d@shuangvod.com:1121/';
                                     $vName = $ppvodson['playname'].'[双视影院shuangvod.com]';
                                     $downName = $ppvodson['playname'];
-                                if (strpos($ppvodson['playpath'], 'thunder://') === false && strpos($ppvodson['playpath'], 'magnet:') === false) {
+                                if (strpos($ppvodson['playpath'], 'thunder://') === false && strpos($ppvodson['playpath'], 'magnet:') === false && !isset($ppvodson['playnot'])) {
                                     $suffix = strrchr($ppvodson['playpath'],'.');
                                     $xldown = 'AA'.$ppvodson['playpath'].'ZZ';
                                     $ppvodson['playpath'] = 'thunder://'.base64_encode($xldown);
@@ -125,18 +168,14 @@
                                     $downName = $prefix.$vName.$suffix;
                                 }
 
-                                $purl = 0;
 
-                                $arrPlay = array_values($vod_playlist);
-
-                                if (isset($arrPlay[0]['son'][($i-1)]) && !empty($arrPlay[0]['son'][($i-1)])) {
-                                    $purl = '0-'.($i-1);
-                                } else {
-                                   $purl = '';
+                                if(isset($ppvodson['playnot'])) {
+                                    $ppvodson['playname'] = $ppvodson['playname']."暂无迅雷资源，请在线观看！";
+                                    $ppvodson['playpath'] = 'index.html';
                                 }
 
                                 ?>
-                                    <li id="li{$playerkey}_{$i-1}" data-id="{$purl}"><a href="{$ppvodson['playpath']}" title="{$ppvodson.playname}" target="_self">{$ppvodson.playname}</a></li>
+                                    <li id="li{$playerkey}_{$i-1}" data-id="{$ppvod['puri'][$i-1]}"><a href="{$ppvodson['playpath']}" title="{$ppvodson.playname}" target="_self">{$ppvodson.playname}</a></li>
                                 </volist>
                                 <script>echoDown({$playerkey});</script>
                             </ul>
@@ -172,52 +211,60 @@
             </volist>
         </div>
     </notempty>
-    <div class="box2 vod_hot">
-        <h3><div>猜您喜欢</div></h3>
-        <ul class="hot wbox">
-            <php>
-                $mcid=str_replace(array('/','|',' ','，','、'),',',$vod_mcid);
-                $mcid=implode(',',array_slice(explode(',',$mcid),0,2));
-                $vod_gold=ff_mysql_vod('mcid:'.$mcid.';cid:'.$vod_cid.';limit:30;field:vod_id,vod_name,vod_cid,vod_letters,vod_title,vod_gold,vod_pic,vod_gold,vod_total,vod_continu,vod_actor,vod_mcid,vod_addtime;order:vod_stars desc,vod_hits desc');
 
-                if(!$vod_gold) {
-                    $vod_gold=ff_mysql_vod('cid:'.$vod_cid.';limit:30;field:vod_id,vod_name,vod_cid,vod_letters,vod_title,vod_gold,vod_pic,vod_gold,vod_total,vod_continu,vod_actor,vod_mcid,vod_addtime;order:vod_id desc');
-                }
+     <div class="box2">
+        <h3><div>剧情介绍</div></h3>
+        <div class="vod_content">
+<?php
+echo htmlspecialchars_decode(ff_content_url($vod_content, $Tag));
+?><a href="{$vod_readurl}">{$vod_name}迅雷下载</a>由<a href="{$root}">{$sitename}</a>为您提供！</div>
+	</div>
+<div class="box2 vod_hot">
+    <h3><div>猜您喜欢</div></h3>
+    <ul class="hot wbox">
+        <php>
+            $mcid=str_replace(array('/','|',' ','，','、'),',',$vod_mcid);
+            $mcid=implode(',',array_slice(explode(',',$mcid),0,2));
+            $vod_gold=ff_mysql_vod('mcid:'.$mcid.';cid:'.$vod_cid.';limit:30;field:vod_id,vod_name,vod_cid,vod_letters,vod_title,vod_gold,vod_pic,vod_gold,vod_total,vod_continu,vod_actor,vod_mcid,vod_addtime;order:vod_stars desc,vod_hits desc');
 
-                if ($vod_gold) {
+            if(!$vod_gold) {
+            $vod_gold=ff_mysql_vod('cid:'.$vod_cid.';limit:30;field:vod_id,vod_name,vod_cid,vod_letters,vod_title,vod_gold,vod_pic,vod_gold,vod_total,vod_continu,vod_actor,vod_mcid,vod_addtime;order:vod_id desc');
+            }
 
-                    $ids = [];
-                    $data = [];
+            if ($vod_gold) {
 
-                    foreach($vod_gold as $k=>$v) {
+            $ids = [];
+            $data = [];
 
-                        if ($v['vod_id'] == $vod_id) {
-                            continue;
-                        }
+            foreach($vod_gold as $k=>$v) {
 
-                        $id = $v['vod_id'];
-                        $ids[] = $id;
-                        $data[$id] = $v;
-                    }
+            if ($v['vod_id'] == $vod_id) {
+            continue;
+            }
 
-                    $ids = array_unique($ids);
+            $id = $v['vod_id'];
+            $ids[] = $id;
+            $data[$id] = $v;
+            }
+
+            $ids = array_unique($ids);
 
 
-                    $ids = array_slice($ids, 0, 14);
+            $ids = array_slice($ids, 0, 14);
 
-                    $vod_gold = [];
+            $vod_gold = [];
 
-                    foreach($ids as $id) {
-                        if ($id == $vod_id) {
-                            continue;
-                        }
-                        $vod_gold[] = $data[$id];
-                    }
+            foreach($ids as $id) {
+            if ($id == $vod_id) {
+            continue;
+            }
+            $vod_gold[] = $data[$id];
+            }
 
-                } else {
-                    $vod_gold = [];
-                }
-             </php>
+            } else {
+            $vod_gold = [];
+            }
+        </php>
         <volist name="vod_gold" id="ppvod">
             <li>
                 <p>
@@ -226,15 +273,33 @@
                 <h4 class="space"><a href="{$ppvod.vod_readurl}">{$ppvod.vod_name|msubstr=0,12}</a></h4>
             </li>
         </volist>
-        </ul>
-    </div>
-     <div class="box2">
-        <h3><div>剧情介绍</div></h3>
-        <div class="vod_content">
-<?php
-echo htmlspecialchars_decode(ff_content_url($vod_content, $Tag));
-?><a href="{$vod_readurl}">{$vod_name}迅雷下载</a>由<a href="{$root}">{$sitename}</a>为您提供！</div>
-	</div>
+    </ul>
+</div>
+    <notempty name="vod_doujp">
+
+        <?php
+
+            $jpInfo = [];
+            $arrJp = explode('##', $vod_doujp);
+            foreach($arrJp as $k => $item) {
+                $jpInfo[$k] = explode('$', $item);
+            }
+
+        ?>
+
+
+        <div class="box2">
+            <h3><div>豆瓣剧评</div></h3>
+            <div class="vod_content jp">
+                <volist name="jpInfo" id="jp">
+                    <h4>{$jp[0]}</h4>
+                    <p>{$jp[1]}</p>
+                </volist>
+            </div>
+        </div>
+    </notempty>
+
+
  <!--   <div class="top960">{:getadsurl('top960')}</div>-->
     {$vod_hits_insert}
    <include file="pp:footer" />
