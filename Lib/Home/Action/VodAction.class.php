@@ -30,6 +30,144 @@ class VodAction extends HomeAction{
     }
     // 多分类筛选
     public function type(){
+
+		$special = ['mcid', 'area', 'lz'];
+
+		$listMap = [
+			'mcid' => [
+				'qingchun' => [
+					'uri' => 'qingchun',
+					'id' => '11',
+					'name' => '青春'
+				],
+				'kehuan' => [
+					'uri' => 'kehuan',
+					'id' => '65',
+					'name' => '科幻',
+				],
+			],
+			'area' => [
+				'meiguo' => [
+					'uri' => 'meiguo',
+					'id' => '美国',
+					'name' => '美国',
+				],
+				'yingguo'=>[
+					'uri' => 'yingguo',
+					'id' => '英国',
+					'name' => '英国',
+				],
+				'jianada' => [
+					'uri' => 'jianada',
+					'id' => '加拿大',
+					'name'=>'加拿大'
+				],
+			],
+			'lz' => [
+				'lz'=>[
+					'id' => 1,
+					'name' => '连载中',
+				],
+				'bjz'=> [
+					'id' => 2,
+					'name' => '本季完结',
+				],
+				'end'=>[
+					'id' => 0,
+					'name' => '完结',
+				],
+				'yg'=> [
+					'id' => 3,
+					'name' => '预告',
+				],
+			],
+			'year' => [
+				'2018', '2017', '2016', '2015', '2014', '2013', '2012', '2011', '2010', '2009'
+			],
+			'diantai' => [
+				'CW', 'AMC', 'HBO', 'StarZ', 'CBS', 'ABC', 'NBC', 'FOX', 'TNT', 'ShowTime', 'LifeTime', 'FX', 'Netflix'
+				,'Cinemax', 'Sky', 'E4', 'BBC', 'FXX', 'Disney'
+			],
+		];
+
+
+
+		//获取参数
+		$uri = $_SERVER['REQUEST_URI'];
+		$uri = trim($uri, '/');
+		$uri = trim(str_replace('vod-type-id-18', '', $uri), '-');
+		//获取页数
+		$arrTemp = strrpos($uri, '/') !== false ? explode('/', $uri) : [$uri, 1];
+		$page = !empty($arrTemp[1]) && is_numeric($arrTemp[1]) ? $arrTemp[1] : 1;
+		$uri = $arrTemp[0];
+		$where = 'cid:18;limit:10;page:'.$page;
+
+
+		$currArr = [];
+		$currMcid = '';
+		$currArea = [];
+		$currTv = [];
+		$currYear = [];
+		$currLz = [];
+		//拆分组合参数
+		if (!empty($uri)) {
+			$arrUri = explode('-', $uri);
+			//生成查询条件
+			foreach ($arrUri as $k => $uri) {
+				foreach ($listMap as $cond => $map) {
+					if (in_array($cond, $special)) {
+						if (in_array($uri, array_keys($map))) {
+							$where .= ';'.$cond.':'.$map[$uri]['id'];
+							$currArr[] = $uri;
+						}
+					} else {
+						if (in_array($uri, $map)) {
+							$where .= ';'.$cond.':'.$uri;
+							$currArr[] = $uri;
+						}
+					}
+				}
+			}
+		}
+
+		$temp1 = $currArr;
+		//生成类型链接
+		foreach ($listMap['mcid'] as $k => $mcat) {
+			if (in_array($k, $temp1)) {
+				unset($temp1[array_search($k, $temp1)]);
+			}
+		}
+		$currMcid = !empty($temp1) ? '-'.implode('-', $temp1) : '';
+
+		$temp2 = $currArr;
+		//生成地区链接
+		foreach ($listMap['area'] as $k => $area) {
+			if (in_array($k, $temp2)) {
+				unset($temp2[array_search($k, $temp2)]);
+			}
+		}
+		$currArea = !empty($temp2) ? '-'.implode('-', $temp2) : '';;
+
+		$temp3 = $currArr;
+		//生成年份链接
+		foreach ($listMap['year'] as $k => $year) {
+			if (in_array($year, $temp3)) {
+				unset($temp3[array_search($year, $temp3)]);
+			}
+		}
+		$currYear = implode('-', $temp3);
+
+		$temp4 = $currArr;
+		//生成连载链接
+		foreach ($listMap['lz'] as $k => $lz) {
+			if (in_array($k, $temp4)) {
+				unset($temp4[array_search($k, $temp4)]);
+			}
+		}
+		$currLz = implode('-', $temp4);
+
+		//echo '<pre>';var_dump($currMcid, $currArea, $currYear, $currLz);die;
+
 		$Url = ff_param_url();
 		$JumpUrl = ff_param_jump($Url);
 		$JumpUrl['p'] = '{!page!}';	
@@ -37,8 +175,16 @@ class VodAction extends HomeAction{
 		C('currentpage',$Url['page']);
 		$List = list_search(F('_ppvod/list'),'list_id='.$Url['id']);
 		$channel = $this->Lable_Vod_List($Url,$List[0]);
+
+		//var_dump($channel);die;
+
+		$typeVodList = ff_mysql_vod($where);
+		$this->assign(['mciduri'=>$currMcid]);
+		$this->assign(['areauri'=>$currArea]);
+		$this->assign(['currUri'=>$currArr]);
+		$this->assign(['listMap'=>$listMap]);
 		$this->assign($channel);
-		$this->display($channel['list_skin_type']);
+		$this->display($channel['list_skin']);
     }	
 	// 影片内容页
     public function read(){

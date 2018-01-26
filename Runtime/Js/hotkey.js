@@ -1,1 +1,1 @@
-document.write('<a href="/vod-search-wd--p-1.html"></a>');
+document.write('<a href="/?s=vod-search.html"></a>');

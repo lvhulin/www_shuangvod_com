@@ -161,7 +161,7 @@ class AllAction extends Action{
 			    $urllist[$key]['playname'] = '第'.($key+1).'集';
 			    $urllist[$key]['playpath'] = trim($val);
 			}
-			$urllist[$key]['playurl'] = ff_play_url($id,$sid,$key,$cid,$name);
+			$urllist[$key]['playurl'] = $sid.'-'.$key;//ff_play_url($id,$sid,$key,$cid,$name);
 			$urllist[$key]['playcount'] = count($array_url);
 		}
 	    return $urllist;

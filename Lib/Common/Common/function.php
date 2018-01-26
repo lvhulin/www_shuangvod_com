@@ -798,7 +798,7 @@ function str_replace_dir($urldir,$id,$cid,$name,$pinyin){
 function ff_list_url($sid,$arrurl,$page){
 	//静态模式
 	if(C('url_html') && C('url_html_list') && in_array($sid,array('vod','news'))){
-		$showurl = C('site_path').str_replace('index'.C('html_file_suffix'),'',ff_list_url_dir($sid,$arrurl['id'],$page).C('html_file_suffix'));
+		$showurl = C('site_url').str_replace('index'.C('html_file_suffix'),'',ff_list_url_dir($sid,$arrurl['id'],$page).C('html_file_suffix'));
 		return $showurl;
 	}else{
 		if($page > 1){ $arrurl['p'] = '{!page!}'; }
@@ -839,7 +839,7 @@ function ff_data_url($sid,$id,$cid,$name,$page,$jumpurl,$pinyin){
 	}
 	//静态
 	if(C('url_html')){
-		$readurl = C('site_path').str_replace('index'.C('html_file_suffix'),'',ff_data_url_dir($sid,$id,$cid,$name,$page,$pinyin).C('html_file_suffix'));
+		$readurl = C('site_url').str_replace('index'.C('html_file_suffix'),'',ff_data_url_dir($sid,$id,$cid,$name,$page,$pinyin).C('html_file_suffix'));
 		return $readurl;
 	}
 	//动态模式
@@ -971,14 +971,14 @@ function ff_content_url($content,$array_tag='',$sid=''){
 function ff_mytpl_url($tplname){
 	$tplname = str_replace(array('my_','.html'),'',$tplname);
 	if(C('url_html')){
-		return C('site_path').C('url_mytpl').$tplname.C('html_file_suffix');
+		return C('site_url').C('url_mytpl').$tplname.C('html_file_suffix');
 	}
 	return UU('Home-my/show',array('id'=>trim($tplname)),true,false);
 }
 // 地图页链接
 function ff_map_url($tplname){
 	if(C('url_html')){
-		return C('site_path').C('url_map').$tplname.'.xml';
+		return C('site_url').C('url_map').$tplname.'.xml';
 	}
 	$limit = 30;
 	if($tplname != 'rss'){

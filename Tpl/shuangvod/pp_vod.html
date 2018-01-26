@@ -8,25 +8,26 @@
     } else {
         $listName = str_replace(['片', '电视', '国', '香', '湾', '本'], '', $list_name);
     }
-
-    $seoName = '迅雷下载';
-
+    $seoName = '';
+    if(!empty($vod_downlist)) {
+        $seoName = '迅雷下载';
+    }
  ?>
-    <title><eq name="list_pid" value="2">{$vod_name}{$seoName}_{$listName}_</eq><eq name="list_pid" value="1">{$vod_name}迅雷下载_电影_</eq><eq name="list_id" value="3">{$vod_name}迅雷下载_动漫_</eq><eq name="list_id" value="4">{$vod_name}迅雷下载_综艺_</eq>{$sitename}</title>
+    <title><eq name="list_pid" value="2">{$vod_name}{$seoName}_{$listName}_</eq><eq name="list_pid" value="1">{$vod_name}{$seoName}_电影_</eq><eq name="list_id" value="3">{$vod_name}{$seoName}_动漫_</eq><eq name="list_id" value="4">{$vod_name}{$seoName}_综艺_</eq>{$sitename}</title>
     <eq name="list_pid" value="2">
-        <meta name="keywords" content="{$vod_name}迅雷下载,{$vod_name}全集,{$vod_name}{$listName}">
+        <meta name="keywords" content="{$vod_name}{$seoName},{$vod_name}全集,{$vod_name}{$listName}">
         <meta name="description" content="{$sitename}为您提供{$listName}{$vod_name}全集{$seoName},剧情介绍：{$vod_content|h|msubstr=0,100}">
     </eq>
     <eq name="list_pid" value="1">
-        <meta name="keywords" content="{$vod_name}高清,{$vod_name}{$listName},{$vod_name}迅雷下载">
-        <meta name="description" content="{$sitename}为您提供{$listName}{$vod_name}高清{$seoName}，剧情介绍：{$vod_content|h|msubstr=0,100}">
+        <meta name="keywords" content="{$vod_name}高清,{$vod_name}{$listName},{$vod_name}{$seoName}">
+        <meta name="description" content="{$sitename}为您提供{$listName}电影{$vod_name}高清{$seoName}，剧情介绍：{$vod_content|h|msubstr=0,100}">
     </eq>
     <eq name="list_id" value="3">
-        <meta name="keywords" content="{$vod_name}迅雷下载">
+        <meta name="keywords" content="{$vod_name}{$seoName}">
         <meta name="description" content="{$sitename}为您提供{$listName}{$vod_name}{$seoName}，剧情介绍：{$vod_content|h|msubstr=0,100}">
     </eq>
     <eq name="list_id" value="4">
-        <meta name="keywords" content="{$vod_name}迅雷下载">
+        <meta name="keywords" content="{$vod_name}{$seoName}">
         <meta name="description" content="{$sitename}为您提供{$listName}{$vod_name}{$seoName}；介绍：{$vod_content|h|msubstr=0,100}">
     </eq>
     <script type="text/javascript">var Root='{$root}';var Sid='{$sid}';var Cid='{$list_id}';<if condition="$sid eq 1">var Id='{$vod_id}';<else />var Id='{$news_id}';</if></script>
@@ -118,16 +119,33 @@
         <div class="vod_r">{:getadsurl('vod300')}</div>
     </div>
 
-<notempty name="vod_names">
-    <php>
-        $arrNames = explode('#', $vod_names);
-        $arrNames['name'] = $arrNames[0];
-        $ids = $arrNames[1];
-        $vodlist = ff_mysql_vod('ids:'.$ids);
-    </php>
+
+<?php
+        $relation = [];
+
+        if($vod_cid == 18) {
+
+            $arrKeys = explode('第', $vod_name);
+            if(isset($arrKeys[0]) && !empty($arrKeys[0])) {
+                $name = $arrKeys[0];
+                $nlength = mb_strlen($name);
+                if ($nlength > 5) {
+                    $name = msubstr($name, 0, 5, false);
+                }
+                $relation = ff_mysql_vod('cid:'.$vod_cid.';name:'.$name.';field:vod_cid,vod_name,vod_id');
+                foreach($relation as $k => $v) {
+                    if($v['vod_id'] == $vod_id) {
+                        unset($relation[$k]);
+                    }
+                }
+            }
+        }
+?>
+
+<notempty name="relation">
  <div class="box">
  <ul class="hang1">
-     <volist name="vodlist" id="item">
+     <volist name="relation" id="item">
      <li><a title="{$item['vod_name']}" href="{$item['vod_readurl']}">{$item['vod_name']}</a></li>
      </volist>
  </ul>
@@ -168,14 +186,8 @@
                                     $downName = $prefix.$vName.$suffix;
                                 }
 
-
-                                if(isset($ppvodson['playnot'])) {
-                                    $ppvodson['playname'] = $ppvodson['playname']."暂无迅雷资源，请在线观看！";
-                                    $ppvodson['playpath'] = 'index.html';
-                                }
-
                                 ?>
-                                    <li id="li{$playerkey}_{$i-1}" data-id="{$ppvod['puri'][$i-1]}"><a href="{$ppvodson['playpath']}" title="{$ppvodson.playname}" target="_self">{$ppvodson.playname}</a></li>
+                                    <li id="li{$playerkey}_{$i-1}"><a href="{$ppvodson['playpath']}" title="{$ppvodson.playname}" target="_self">{$ppvodson.playname}</a></li>
                                 </volist>
                                 <script>echoDown({$playerkey});</script>
                             </ul>
@@ -211,6 +223,25 @@
             </volist>
         </div>
     </notempty>
+
+<notempty name="vod_playlist">
+    <div class="box2">
+        <volist name="vod_playlist" id="ppvod" key="playerkey">
+            <h3><div>{$ppvod.playername}</div></h3>
+            <div  class="playlist wbox p{$playerkey}">
+                <php>$count = count($ppvod['son'])</php>
+                <volist name="ppvod['son']" id="ppvodson" key="iii">
+                    <a rel="nofollow" class="play-li" <gt name="iii" value="25">re="h" style="display:none;"</gt> href="javascript:void(0)" onclick="onlinePlayer('{$ppvodson.playurl}')" target="_slef">{$ppvodson.playname}</a>
+                </volist>
+                <gt name="count" value="25">
+                    <a rel="nofollow" class="play-li btn" data-id="{$playerkey}" href="javascript:void(0)" re="{$count}">查看全部{$count}集</a>
+                </gt>
+            </div>
+            <eq name="playerkey" value="1">
+            </eq>
+        </volist>
+    </div>
+</notempty>
 
      <div class="box2">
         <h3><div>剧情介绍</div></h3>
@@ -298,7 +329,20 @@ echo htmlspecialchars_decode(ff_content_url($vod_content, $Tag));
             </div>
         </div>
     </notempty>
-
+    <div class="box2">
+        <h3><div>评论点评</div></h3>
+        <div class="vod_content">
+            <!--PC版-->
+            <div id="SOHUCS" sid="{$vod_id}"></div>
+            <script charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/changyan.js" ></script>
+            <script type="text/javascript">
+                window.changyan.api.config({
+                    appid: 'cytqWg4Hz',
+                    conf: 'prod_756133ecc82017ba80ce49c765c4169f'
+                });
+            </script>
+        </div>
+    </div>
 
  <!--   <div class="top960">{:getadsurl('top960')}</div>-->
     {$vod_hits_insert}

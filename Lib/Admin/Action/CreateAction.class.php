@@ -326,19 +326,10 @@ class CreateAction extends BaseAction{
     public function vod_read_create($array){
 		$arrays = $this->Lable_Vod_Read($array);
 
-		$downList = array_values($arrays['read']['vod_downlist']);
-		$downListKeys = array_keys($arrays['read']['vod_downlist']);
-		$downTotal = count($downList[0]['son']);
-		if($downTotal == 0) {
-			$downList[0]['son'] = [];
-		}
-
 		$player = C('play_player');
 		$vod_play = explode('$$$', $arrays['read']['vod_play']);
 		$vod_url = explode('$$$', $arrays['read']['vod_url']);
 		$arrPlay = $arrUrl = [];
-		$m3u8 = ['uri'=>[], 'sid'=>''];
-		$xigua = ['uri'=>[], 'sid'=>''];
 		foreach ($vod_play as $k => $v) {
 
 			if (!in_array($v, ['down', 'bt', 'magnet'])) {
@@ -348,94 +339,14 @@ class CreateAction extends BaseAction{
 				$arrServer[] = $player[$v][1];
 			}
 
-			$m3u8Uri = $xiguaUri = [];
-			if($v == 'm3u8') {
-				$m3u8['uri'] = explode(PHP_EOL, $vod_url[$k]);
-				$m3u8['sid'] = $k;
-			} elseif ($v == 'xigua') {
-				$xigua['uri'] = explode(PHP_EOL, $vod_url[$k]);
-				$xigua['sid'] = $k;
-			}
 		}
 
-		$targetUrl = $targetUri = [];
-
-		$m3u8Total = count($m3u8['uri']);
-		$xiguaTotal = count($xigua['uri']);
-
-
-
-		if ($m3u8Total > 0) {
-			foreach ($m3u8['uri'] as $pid => $uri) {
-				$sid = array_search('m3u8', $arrPlay);
-				$m3u8Uri[] = $sid.'-'.$pid;
-			}
-		}
-
-		if ($xiguaTotal > 0) {
-			foreach ($xigua['uri'] as $pid => $uri) {
-				$sid = array_search('xigua', $arrPlay);
-				$xiguaUri[] = $sid.'-'.$pid;
-			}
-		}
-
-		if ($m3u8Total >= $xiguaTotal) {
-			$targetUrl = $m3u8['uri'];
-			$targetUri = $m3u8Uri;
-		} elseif ($m3u8Total > 0 && $m3u8Total < $xiguaTotal) {
-			$targetUrl = $m3u8['uri'];
-			$targetUri = $m3u8Uri;
-			$arrTemp = array_slice($xigua['uri'], $m3u8Total, $xiguaTotal);
-			$arrTempUri = array_slice($xiguaUri, $m3u8Total, $xiguaTotal);
-			$targetUrl = array_merge($m3u8['uri'], $arrTemp);
-			$targetUri = array_merge($m3u8Uri, $arrTempUri);
-		} else {
-			$targetUrl = $xigua['uri'];
-			$targetUri = $xiguaUri;
-		}
-
-		$arrSon = [
-			'playname'=>'',
-			'playpath'=>'',
-			'playurl'=>'',
-			'playcount'=>'',
-			'playnot'=>'',
-		];
-
-		if (count($targetUrl) > $downTotal) {
-			for($i=1,$j=($downTotal); $i<=count($targetUrl) - $downTotal; $i++,$j++) {
-				$name = explode('++', $targetUrl[$j]);
-				$arrSon['playname'] = $name[0];
-				$arrSon['playpath'] = '暂无'. $name[0].'资源，请在线观看';
-				$arrSon['playnot'] = true;
-				array_push($downList[0]['son'], $arrSon);
-			}
-		}
-
-		if ($downTotal == 0) {
-			$arrays['read']['vod_downlist']['36-0'] = [
-				'servername'=>'',
-				'serverurl'=>'',
-				'playername'=>'迅雷下载',
-				'playname'=>'down',
-				'son' => $downList[0]['son'],
-				'puri' => $targetUri,
-			];
-
-		} else {
-			$arrays['read']['vod_downlist'][$downListKeys[0]]['son'] = $downList[0]['son'];
-			$arrays['read']['vod_downlist'][$downListKeys[0]]['puri'] = $targetUri;
-		}
-
-		//echo '<pre>';var_dump($arrays['read']);die;
 
 		$arrays['read']['vod_play'] = implode('$$$', $arrPlay);
 		$arrays['read']['vod_url'] = urlencode(implode('$$$', $arrUrl));
 		$arrays['read']['vod_server'] = implode('$$$', $arrServer);
-
-
-		unset($arrays['read']['vod_playlist']);
 		
+
 		$playJs =<<<EO
     var pp_link="(ppvod)";var pp_vodname="{$arrays['read']['vod_name']}";var pp_downqvod="";var pp_downgvod="";var pp_downpvod="";var pp_downweb9="";var pp_playad="/Public/Player/loadings/ad_loading.html";
     var pp_width=680; var pp_height=493;var pp_show=0;var vod_name="{$arrays['read']['vod_name']}";var list_name="<a href={$arrays['show']['list_url']}>{$arrays['show']['list_name']}</a>";

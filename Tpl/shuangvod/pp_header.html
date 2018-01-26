@@ -5,7 +5,7 @@
 </div>
 <div class="header">
     <div class="logo-box">
-        <div class="logo"><a href="{$root}"></a></div>
+        <div class="logo"><a href="{$site_url}"></a></div>
         <div class="search-box">
             <form id="ffsearch" name="ffsearch" method="post" action="{$root}index.php?s=vod-search">
                 <input type="text" name="wd" id="wd" class="search-input" value="{$wd}"/>
@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="nav">
-        <a <if condition="($list_id eq null) OR ($list_id gt 14)">class="on cur"</if> href="{$root}">首页</a>
+        <a <if condition="($list_id eq null) OR ($list_id gt 14)">class="on cur"</if> href="http://www.shuangvod.com">首页</a>
         <volist name="list_menu" id="ppvod">
             <if condition="($ppvod['list_id'] eq 1) OR ($ppvod['list_id'] eq 3) OR ($ppvod['list_id'] eq 4)">
                 <volist name="ppvod.son" id="ppvod">

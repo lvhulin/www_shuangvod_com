@@ -81,7 +81,7 @@ function installapp(){
 				  {
 					setTimeout(function(){
 					var surl = "http://api.himoca.com/moca/ad/click?d=878D8081&t=A1DF-4111-BAFF-971E18324FD6";
-						top.location.href=surl;
+						//top.location.href=surl;
 					},3000);
 				  } 
 			}, 500);

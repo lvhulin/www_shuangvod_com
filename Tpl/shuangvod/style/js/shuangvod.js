@@ -482,9 +482,11 @@ var FF = {
 			$('.playlist .btn').bind('click', function(e){
 				e.preventDefault();
 				var self = $(this),
+					id = self.attr('data-id'),
 					allNum = self.attr('re'),
 					sta = self.attr('sta'),
-					hideItem = $('.playlist').find('a[rel="h"]');
+					hideItem = $('.p'+id).find('a[re="h"]');
+				console.log(id);
 				if(sta == undefined || sta == 0){
 					hideItem.show();
 					self.text('收起');
@@ -582,7 +584,7 @@ $(document).ready(function(){
 	//搜索联想
 	//FF.Suggest.Show('wd',12,Root+'index.php?s=plus-search-vod',Root+'index.php?s=vod-search-wd-');
 	//历史记录
-	//FF.History.List('history');
+	FF.History.playList();
 	//影视顶踩初始化
 	FF.UpDown.Vod(Root+'index.php?s=Updown-'+FF.Home.Channel+'-id-'+Id);
 	//新闻顶踩初始化
