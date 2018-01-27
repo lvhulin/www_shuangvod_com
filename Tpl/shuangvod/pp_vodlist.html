@@ -23,7 +23,9 @@
 <div class="wrap">
     <include file="pp:header" />
     <div class="box">
-        <div class="top"><h3><a href="{$list_url}">最新{$listName}</a><span><a class="space" href="/{$list_dir}/top50.html">{$listName}榜单</a></span></h3></div>
+        <div class="top"><h3><a href="{$list_url}">最新{$listName}</a>
+            <span><a class="space" href="/{$list_dir}/timeOrder/1.html">按时间排序</a> | <a class="space" href="/{$list_dir}/top50.html">{$listName}榜单</a></span>
+        </h3></div>
         <ul class="imgh4 index_stars"><volist name="vod_stars" id="ppvod"><li><p><a href="{$ppvod.vod_readurl}"><img class="lazy" data-original="{$ppvod.vod_picurl}" src="{$tpl}/style/images/js/blank.png" alt="{$ppvod.vod_name}" /></a></p><h5><a href="{$ppvod.vod_readurl}" title="{$ppvod.vod_name}">{$ppvod.vod_name}</a></h5></li></volist></ul>
         </volist></ul>
     </div>

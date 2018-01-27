@@ -22,8 +22,8 @@
 .Comment #comment_tips{color:#FF0000}
 
 /*顶踩图标*/
-a.Up{background:url(images/js/up_down.gif) no-repeat 0px -4px; padding-left:16px;}
-a.Down{background:url(images/js/up_down.gif) no-repeat 0px -24px; padding-left:16px;}
+a.Up{background:url(images/js/up_down.gif) no-repeat 0px -4px; padding-left:16px;font-size: 15px;}
+a.Down{background:url(images/js/up_down.gif) no-repeat 0px -24px; padding-left:16px;font-size: 15px;}
 
 /*新闻顶踩图标*/
 .Digup, .Digdown {background:url(images/js/ud_down_news.gif) no-repeat -189px 0;border:0;cursor:pointer;float:left;height:48px;margin:0;overflow:hidden;padding:0;position:relative;width:189px;}

@@ -95,8 +95,8 @@
           <p class="w">出产地区：<span>{$vod_area|default='未知'}</span>上映时间：{$vod_year|default='未录入'}</p>
           <p class="w">对白语言：<span>{$vod_language|default='未知'}</span>更新时间：{$vod_addtime|date='Y-m-d',###}</p>
             <notempty name="vod_doupf">
-                <p class="up doupf">豆瓣评分：<strong><a rel="nofloow" href="https://movie.douban.com/subject/{$vod_douid}/">{$vod_doupf}</a></strong></p>
-                <else/>
+                <p class="w doupf"><span class="up">请您打分：<include file="pp:vod_updown" /></span> 豆瓣评分：<strong><a rel="nofloow" href="https://movie.douban.com/subject/{$vod_douid}/">{$vod_doupf}</a></strong></p>
+            <else/>
                 <p class="up">请您打分：<include file="pp:vod_updown" /></p>
             </notempty>
 
@@ -222,33 +222,35 @@
                 </eq>
             </volist>
         </div>
+
+    <else/>
+        <notempty name="vod_playlist">
+            <div class="box2">
+                <volist name="vod_playlist" id="ppvod" key="playerkey">
+                    <h3><div>{$ppvod.playername}</div></h3>
+                    <div  class="playlist wbox p{$playerkey}">
+                        <php>$count = count($ppvod['son'])</php>
+                        <volist name="ppvod['son']" id="ppvodson" key="iii">
+                            <a rel="nofollow" class="play-li" <gt name="iii" value="25">re="h" style="display:none;"</gt> href="javascript:void(0)" onclick="onlinePlayer('{$ppvodson.playurl}')" target="_slef">{$ppvodson.playname}</a>
+                        </volist>
+                        <gt name="count" value="25">
+                            <a rel="nofollow" class="play-li btn" data-id="{$playerkey}" href="javascript:void(0)" re="{$count}">查看全部{$count}集</a>
+                        </gt>
+                    </div>
+                    <eq name="playerkey" value="1">
+                    </eq>
+                </volist>
+            </div>
+        </notempty>
     </notempty>
 
-<notempty name="vod_playlist">
-    <div class="box2">
-        <volist name="vod_playlist" id="ppvod" key="playerkey">
-            <h3><div>{$ppvod.playername}</div></h3>
-            <div  class="playlist wbox p{$playerkey}">
-                <php>$count = count($ppvod['son'])</php>
-                <volist name="ppvod['son']" id="ppvodson" key="iii">
-                    <a rel="nofollow" class="play-li" <gt name="iii" value="25">re="h" style="display:none;"</gt> href="javascript:void(0)" onclick="onlinePlayer('{$ppvodson.playurl}')" target="_slef">{$ppvodson.playname}</a>
-                </volist>
-                <gt name="count" value="25">
-                    <a rel="nofollow" class="play-li btn" data-id="{$playerkey}" href="javascript:void(0)" re="{$count}">查看全部{$count}集</a>
-                </gt>
-            </div>
-            <eq name="playerkey" value="1">
-            </eq>
-        </volist>
-    </div>
-</notempty>
 
      <div class="box2">
         <h3><div>剧情介绍</div></h3>
         <div class="vod_content">
 <?php
 echo htmlspecialchars_decode(ff_content_url($vod_content, $Tag));
-?><a href="{$vod_readurl}">{$vod_name}迅雷下载</a>由<a href="{$root}">{$sitename}</a>为您提供！</div>
+?><a href="{$vod_readurl}"></div>
 	</div>
 <div class="box2 vod_hot">
     <h3><div>猜您喜欢</div></h3>

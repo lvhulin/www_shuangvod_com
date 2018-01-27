@@ -73,7 +73,7 @@ class CreateAction extends BaseAction{
 				break;
 			}
 			//变量赋值
-			C('jumpurl',ff_list_url(getsidname($sid),array('id'=>$Url[$key]['id'],'p'=>'{!page!}'),9999));
+			C('jumpurl',ff_list_url_timeorder(getsidname($sid),array('id'=>$Url[$key]['id'],'p'=>'{!page!}'),9999));
 			C('currentpage',$Url[$key]['page']);
 			$channel = list_search($List,'list_id='.$Url[$key]['id']);
 			if($sid == 1){
@@ -83,9 +83,16 @@ class CreateAction extends BaseAction{
 			}
 			$this->assign($channel);
 			//目录路径并生成
-			$listdir = str_replace('{!page!}',$Url[$key]['page'],ff_list_url_dir(getsidname($sid),$Url[$key]['id'],$Url[$key]['page']));
-			$this->buildHtml($listdir,'./',$channel['list_skin']);
-			$this->buildHtml(str_replace('index', 'top50', $listdir),'./','pp_top50');
+			$listdir = str_replace('{!page!}',$Url[$key]['page'],ff_list_url_dir_new(getsidname($sid),$Url[$key]['id'],$Url[$key]['page']));
+
+			$this->buildHtml($listdir,'./', 'pp_listorder');
+
+			if ($Url[$key]['page'] == 1) {
+				//按时间排序
+				$this->buildHtml(str_replace('timeOrder/1', 'index', $listdir),'./',$channel['list_skin']);
+				//榜单
+				$this->buildHtml(str_replace('timeOrder', 'top50', $listdir),'./','pp_top50');
+			}
 			//预览路径
 			$showurl = C('sitepath').$listdir.C('html_file_suffix');
 			echo'<li>第<font color=red>'.($key+1).'</font>个生成完毕　<a href="'.$showurl.'" target="_blank">'.$showurl.'</a></li>';

@@ -783,11 +783,16 @@ function getadsurl($str,$charset="utf-8"){
 	return '<script type="text/javascript" src="'.C('site_path').C('admin_ads_file').'/'.$str.'.js" charset="'.$charset.'"></script>';
 }
 /*******************替换自定义路径的变量****************************/
-function str_replace_dir($urldir,$id,$cid,$name,$pinyin){
-	$old = array('{listid}','{listdir}','{pinyin}','{id}','{md5}',C('html_file_suffix'));
+function str_replace_dir($urldir,$id,$cid,$name,$pinyin,$page=''){
+	$old = array('{listid}','{listdir}','{pinyin}','{id}','{md5}', '{page}', C('html_file_suffix'));
 	$py = !empty($pinyin) ? $pinyin : ff_pinyin($name);
-	$new = array($cid,getlistname($cid,'list_dir'),$py,$id,md5($id),'');
+	$new = array($cid,getlistname($cid,'list_dir'),$py,$id,md5($id),$page,'');
 	return str_replace($old,$new,$urldir);
+}
+function str_replace_dir_new($urldir,$cid,$page=''){
+	$old = array('{listid}','{listdir}','{pinyin}','{id}','{md5}', '{page}', C('html_file_suffix'));
+	$new = array($cid,getlistname($cid,'list_dir'),$page);
+	return str_replace($old,$new,$urldir).'{!page!}';
 }
 /*******************获取栏目页路径****************************
 * $sid 模型名称'movie/article/special'
@@ -799,6 +804,17 @@ function ff_list_url($sid,$arrurl,$page){
 	//静态模式
 	if(C('url_html') && C('url_html_list') && in_array($sid,array('vod','news'))){
 		$showurl = C('site_url').str_replace('index'.C('html_file_suffix'),'',ff_list_url_dir($sid,$arrurl['id'],$page).C('html_file_suffix'));
+		return $showurl;
+	}else{
+		if($page > 1){ $arrurl['p'] = '{!page!}'; }
+		$showurl = UU('Home-'.$sid.'/show',$arrurl,true,false);
+	}
+	return $showurl;
+}
+function ff_list_url_timeorder($sid,$arrurl,$page){
+	//静态模式
+	if(C('url_html') && C('url_html_list') && in_array($sid,array('vod','news'))){
+		$showurl = C('site_url').str_replace('index'.C('html_file_suffix'),'',ff_list_url_dir_new($sid,$arrurl['id'],$page).C('html_file_suffix'));
 		return $showurl;
 	}else{
 		if($page > 1){ $arrurl['p'] = '{!page!}'; }
@@ -821,6 +837,18 @@ function ff_list_url_dir($sid,$cid,$page){
 	}
 	if($page > 1){
 		$listdir .= '-{!page!}';
+	}
+	return $listdir;
+}
+function ff_list_url_dir_new($sid,$cid,$page){
+	//影视或文章
+	if('vod' == $sid){
+		$listdir = str_replace_dir_new('{listdir}/timeOrder/',$cid,$page);
+	}else{
+		$listdir = str_replace_dir(C('url_newslist'),$id,$cid,$name);
+	}
+	if($page > 1){
+		$listdir .= '';
 	}
 	return $listdir;
 }

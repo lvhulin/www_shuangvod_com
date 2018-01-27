@@ -42,7 +42,7 @@ class BaseAction extends AllAction{
 				$list[$key]['list_url_big'] = ff_list_url(getsidname($list[$key]['list_sid']),array('id'=>$list[$key]['list_pid']),1);
 				$list[$key]['list_name_big'] = getlistname($list[$key]['list_pid']);
 				if($list[$key]['list_sid'] == 1){
-					$list[$key]['list_limit'] = gettplnum('ff_mysql_vod\(\'(.*)\'\)',$list[$key]['list_skin']);
+					$list[$key]['list_limit'] = gettplnum('ff_mysql_vod\(\'(.*)\'\)','pp_listorder');
 				}else{
 					$list[$key]['list_limit'] = gettplnum('ff_mysql_news\(\'(.*)\'\)',$list[$key]['list_skin']);
 				}
