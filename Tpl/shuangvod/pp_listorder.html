@@ -1,0 +1,71 @@
+<php>
+    if ($list_name == '国产电视剧') {
+    $listName = '国产剧';
+    } else {
+    $listName = str_replace(['电视', '国', '香', '湾', '本'], '', $list_name);
+    }
+
+    if($list_id){
+    $vod_stars = ff_mysql_vod('cid:'.$list_id.';limit:14;order:vod_hits desc');
+    $vod_news = ff_mysql_vod('cid:'.$list_id.';limit:36;order:vod_addtime desc');
+    }
+</php>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{$listName}_按更新排序下载_第{$list_page}页-{$sitename}</title>
+    <meta name="keywords" content="{$listName}">
+    <meta name="description" content="{$listName}_{$sitename}">
+    <include file="pp:style_header" />
+</head>
+<body><php>
+    $vod_list = ff_mysql_vod('cid:'.$list_id.';limit:49;page:true;order:vod_addtime desc,vod_id desc');
+    $page = $vod_list[0]['page'];
+</php>
+<div class="wrap">
+    <include file="pp:header" />
+    <div class="box">
+        <div class="top"><h3><a href="/{$list_dir}/">{$listName}</a>
+            <span><a class="space" href="/{$list_dir}/">{$listName}大全</a> | <a class="space" href="/{$list_dir}/top50.html">{$listName}榜单</a></span>
+        </h3></div>
+        <ul class="imgh4 index_stars">
+            <volist name="vod_list" id="ppvod">
+                <li>
+                    <p>
+                        <a href="{$ppvod.vod_readurl}">
+                            <img class="lazy" data-original="{$ppvod.vod_picurl}" src="{$tpl}style/images/js/blank.png" alt="{$ppvod.vod_name}" />
+                        </a>
+                    </p>
+                    <strong>{$ppvod.vod_name|msubstr=0,9}({$ppvod.vod_addtime|date='m-d',###})</strong>
+                    <h4><a href="{$ppvod.vod_readurl}" title="{$ppvod.vod_name}">
+                        <notempty name="ppvod.vod_title">
+                            {$ppvod['vod_title']}
+                            <else/>
+                            <if condition="($ppvod['vod_cid'] eq 2) OR ($ppvod['vod_cid'] eq 3) OR ($ppvod['vod_cid'] eq 4)">
+                                <neq name="ppvod.vod_continu" value="0">
+                                    <notempty name="ppvod.vod_tvcont">{$ppvod['vod_tvcont']}<else />连载中,待更新</notempty>
+                                    <else />
+                                    <notempty name="ppvod.vod_total">共<php>echo preg_replace('/\D/s', '', $ppvod['vod_total']);</php>
+                                        <eq name="ppvod.vod_cid" value="4">期<else />集</eq>全<else /><notempty name="ppvod.vod_title">{$ppvod['vod_title']}<else />连载中,待更新</notempty>
+                                    </notempty>
+                                </neq>
+                            </if>
+                        </notempty>
+                    </a></h4>
+                </li>
+            </volist>
+        </ul>
+        </volist>
+        <div class="pages">{$page}</div>
+        </ul>
+    </div>
+    <div class="links">
+        <div class="title">
+            <h4><span><a href="mailto:{$email}" target="_blank">申请友链</a></span>友情链接</h4>
+        </div>
+        <ul><volist name="list_link" id="ppvod"><a href="{$ppvod.link_url}" target="_blank">{$ppvod.link_name}</a>┆</volist></ul>
+    </div>
+    <include file="pp:footer" /></div>
+</body>
+</html>
