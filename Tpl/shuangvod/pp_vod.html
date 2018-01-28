@@ -79,16 +79,16 @@
                                 <notempty name="vod_tvcont">{$vod_tvcont}<else />连载中,待更新</notempty>
                             <else />
                                 <notempty name="vod_total">共<php>echo preg_replace('/\D/s', '', $vod_total);</php>
-                                    <eq name="list_id" value="4">期<else />集</eq>全<else /><notempty name="vod_title">{$vod_title}<else />连载中,待更新</notempty>
+                                    <eq name="vod_cid" value="4">期<else />集</eq>全<else /><notempty name="vod_title">{$vod_title}<else />连载中,待更新</notempty>
                                 </notempty>
                             </neq>
                         </if>
                     </notempty>
                 </span>
             </p>
-          <p class="w">影片类型：<a href="{$list_url}">{$list_name}</a> {$vod_mcid|ff_mcat_name}</p>
+          <p class="w">影片类型：<a href="{$list_url}">{$list_name}</a> {:ff_mcat_url_new($vod_mcid, $vod_cid)}</p>
           <p class="w space">
-              <eq name="list_id" value="4">主持人：<else/>影片主演：</eq><notempty name="vod_actor">{$vod_actor|ff_search_url}<else />未录入</notempty></p>
+              <eq name="list_id" value="4">主持人：<else/>影片主演：</eq><notempty name="vod_actor">{:ff_actor_url($vod_actor, $list_pid)}<else />未录入</notempty></p>
           <p class="w">
               <eq name="list_id" value="4">播出电视台：<else/>影片导演：</eq><notempty name="vod_director">{$vod_director|ff_search_url}<else />未录入</notempty>
           </p>
@@ -248,10 +248,8 @@
      <div class="box2">
         <h3><div>剧情介绍</div></h3>
         <div class="vod_content">
-<?php
-echo htmlspecialchars_decode(ff_content_url($vod_content, $Tag));
-?><a href="{$vod_readurl}"></div>
-	</div>
+           <?php echo htmlspecialchars_decode(ff_content_url($vod_content, $Tag));?></div>
+	    </div>
 <div class="box2 vod_hot">
     <h3><div>猜您喜欢</div></h3>
     <ul class="hot wbox">

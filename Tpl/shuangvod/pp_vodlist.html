@@ -8,6 +8,7 @@
     if($list_id){
     $vod_stars = ff_mysql_vod('cid:'.$list_id.';limit:14;order:vod_hits desc');
     $vod_news = ff_mysql_vod('cid:'.$list_id.';limit:36;order:vod_addtime desc');
+    $month_top = ff_mysql_vod('cid:'.$list_id.';time:30;limit:60;order:vod_gold desc');
     }
 </php>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -31,7 +32,7 @@
     </div>
 
     <div class="box">
-        <div class="top"><h3><a>{$listName}大全</a></h3></div>
+        <div class="top"><h3><a rel="nofollow">最近更新</a><span><a href="/{$list_dir}/timeOrder/1.html">查看更多>></a></span></h3></div>
 
         <php>
             $vod_news = array_chunk($vod_news, 4);
@@ -62,6 +63,39 @@
         </for>
     </div>
 
+    <div class="box">
+        <div class="top"><h3><a rel="nofollow">本月排行</a><span>排行榜</span></h3></div>
+
+        <php>
+            $month_top = array_chunk($month_top, 4);
+            $total = count($month_top);
+            $j=0;
+        </php>
+
+        <for start="0" end="$total">
+            <php> $mod = $i%2 </php>
+            <if condition="($mod eq 0)">
+                <ul class="hang2">
+                    <else />
+                    <ul class="hang1">
+            </if>
+            <?php
+             $data = $month_top[$i];
+          ?>
+            <foreach name="data" item="ppvod">
+                <?php
+                if($ppvod['list_name'] == '国产电视剧') {
+                    $listName = '国产';
+                } else {
+                    $listName = str_replace(['片', '电视', '国', '香', '湾', '本'], '', $ppvod['list_name']);
+                }
+                $j++;
+             ?>
+                <li><b>第{$j}名</b><a href="{$ppvod.vod_readurl}" title="{$ppvod.vod_name}">{$ppvod.vod_name|getcolor=$ppvod['vod_color']}</a></li>
+            </foreach>
+            </ul>
+        </for>
+    </div>
 
     <div class="blank"></div>
     <div class="letter">

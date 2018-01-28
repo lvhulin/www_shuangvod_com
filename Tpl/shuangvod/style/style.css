@@ -154,7 +154,7 @@ ul.hang2{background:#f9fcff; width:100%; overflow:hidden}
 ul.hang1 li,ul.hang2 li{float:left; width:220px; text-align:left; height:35px; line-height:35px; color: #2C602F;padding-left: 10px;}
 ul.hang1 li a,ul.hang2 li a {color:#000000; text-decoration:none; margin-right:6px;}
 ul.hang1 li a:hover,ul.hang2 li a:hover {color:#2C602F; text-decoration:underline;}
-ul.hang1 li b,ul.hang2 li b{font-size:13px; padding:0px 8px; font-family:verdana; font-weight:normal; color:#FF0000}
+ul.hang1 li b,ul.hang2 li b{font-size:13px; padding:0px 8px; font-family:verdana; font-weight:normal; color:#bc2931}
 /*图片浮动*/
 .index_stars{ clear:both; width:100%; padding:10px; overflow:hidden; z-index:auto}
 ul.imgh4 li{ float:left; width:134px; text-align:center; margin-bottom:10px; overflow:hidden; position: relative;}

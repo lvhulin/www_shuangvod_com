@@ -436,6 +436,27 @@ function ff_mcat_url($str,$cid){
 	}
 	return $html;
 }
+
+function ff_mcat_url_new($str,$cid){
+	if(empty($str)){
+		return "未知";
+	}
+	$mcids = explode(',', $str);
+	$html = '';
+	foreach($mcids as $v){
+		$arr = list_search(F('_ppvod/mcid'),'m_cid='.$v);
+		$name = $arr[0]['m_name'];
+		$py = ff_pinyin($name);
+		//$url = UU('Home-vod/type', array('id'=>$cid,'mcid'=>$v),true,false);
+		$listname = getlistname($cid, 'list_dir');
+		$url = '/VodType/'.$listname.'/'.$py;
+
+		$html .= "<a href='".$url."' target='_blank'>{$name}</a> ";
+	}
+	return $html;
+}
+
+
 function ff_mcat_title($str,$cid){
 	if(empty($str)){
 		return "未知";
@@ -1030,10 +1051,44 @@ function ff_letter_url($file='vod',$str=''){
 // 获取搜索带链接
 function ff_search_url($str,$type="actor",$sidname='vod',$action='search'){
 	$array = array();
-    $str = str_replace(array('/','|',',','，'),' ',$str);
+	$str = str_replace(array('/','|',',','，'),' ',$str);
 	$arr = explode(' ',$str);
 	foreach($arr as $key=>$val){
 		$array[$key] = '<a href="'.UU('Home-'.$sidname.'/'.$action,array($type=>urlencode($val)),true,false).'" target="_blank">'.$val.'</a>';
+	}
+	return implode(' ',$array);
+}
+
+function ff_actor_url($str,$listid=""){
+	$array = array();
+	$str = str_replace(array('/','|',',','，'),' ',$str);
+	$arr = explode(' ',$str);
+	switch ($listid) {
+		case 1:
+			$type = 'dianying';
+			break;
+		case 2:
+			$type = 'dianshiju';
+			break;
+		case 3:
+			$type = 'dongman';
+			break;
+		case 4:
+			$type = 'zongyi';
+			break;
+		default:
+			$type = 'dianshiju';
+			break;
+	}
+
+	foreach($arr as $key=>$val){
+		$py = ff_pinyin($val);
+		if (empty($py)) {
+			$array[$key] = $val;
+		} else {
+			$array[$key] = '<a href="/actor/'.$type.'/'.$py.'" target="_blank">'.$val.'</a>';
+		}
+
 	}
 	return implode(' ',$array);
 }
@@ -1412,8 +1467,10 @@ function ff_mysql_vod($tag){
 	}
 	//dump($rs->getLastSql());
 	//循环赋值
+	$lists = F('_ppvod/list');
 	foreach($list as $key=>$val){
 		$list[$key]['list_id'] = $list[$key]['vod_cid'];
+		$list[$key]['list_pid'] = list_search($lists, ['list_id'=>$val['vod_cid']])[0]['list_pid'];
 		$list[$key]['list_name'] = getlistname($list[$key]['list_id'],'list_name');
 		$list[$key]['list_url'] = getlistname($list[$key]['list_id'],'list_url');
 		$list[$key]['vod_readurl'] = ff_data_url('vod',$list[$key]['vod_id'],$list[$key]['vod_cid'],$list[$key]['vod_name'],1,$list[$key]['vod_jumpurl'], $list[$key]['vod_pinyin']);

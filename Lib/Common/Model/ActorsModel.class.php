@@ -11,6 +11,7 @@ class ActorsModel extends AdvModel {
 		$actors_arr = array_filter(array_unique($actors_arr));
 		foreach($actors_arr as $key=>$val){
 			$data['actors_name'] = $val;
+			$data['actors_pinyin'] = ff_pinyin($val);
 			$rs->data($data)->add();
 		   }
 		}	

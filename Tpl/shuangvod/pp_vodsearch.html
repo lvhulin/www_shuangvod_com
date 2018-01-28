@@ -24,7 +24,7 @@
       <gt name="vod_list.0.count" value="0"><volist name="vod_list" id="ppvod">
         <ul><a href="{$ppvod.vod_readurl}"><img src="{$ppvod.vod_picurl}" alt="点击播放《{$ppvod.vod_name}》" /></a>
         <h2><a href="{$ppvod.vod_readurl}">{$ppvod.vod_name}</a><em>{$ppvod.vod_gold}</em><notempty name="ppvod.vod_title"><span>{$ppvod.vod_title}</span></notempty></h2>
-        <p>主演∶{$ppvod.vod_actor|ff_search_url}</p>
+        <p>主演∶{:ff_actor_url($ppvod['vod_actor'], $ppvod['list_pid'])}</p>
         <p>地区∶{$ppvod.vod_area|default='未录入'} 上映时间∶{$ppvod.vod_addtime|date='Y-m-d',###}</p>
         <p class="content">{$ppvod.vod_content|msubstr=0,100,'utf-8',true}</p>
         <p><a href="{$ppvod.vod_readurl}">影片详情</a> | <a href="{$ppvod.vod_readurl}">在线下载</a> | 影评({$ppvod.vod_golder})</p>

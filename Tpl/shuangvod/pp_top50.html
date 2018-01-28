@@ -40,15 +40,13 @@
                         <notempty name="ppvod.vod_title">
                             {$ppvod['vod_title']}
                             <else/>
-                            <if condition="($ppvod['vod_cid'] eq 2) OR ($ppvod['vod_cid'] eq 3) OR ($ppvod['vod_cid'] eq 4)">
-                                <neq name="ppvod.vod_continu" value="0">
-                                    <notempty name="ppvod.vod_tvcont">{$ppvod['vod_tvcont']}<else />连载中,待更新</notempty>
-                                    <else />
-                                    <notempty name="ppvod.vod_total">共<php>echo preg_replace('/\D/s', '', $ppvod['vod_total']);</php>
-                                        <eq name="ppvod.vod_cid" value="4">期<else />集</eq>全<else /><notempty name="ppvod.vod_title">{$ppvod['vod_title']}<else />连载中,待更新</notempty>
-                                    </notempty>
-                                </neq>
-                            </if>
+                            <neq name="ppvod.vod_continu" value="0">
+                                <notempty name="ppvod.vod_tvcont">{$ppvod['vod_tvcont']}<else />连载中,待更新</notempty>
+                                <else />
+                                <notempty name="ppvod.vod_total">共<php>echo preg_replace('/\D/s', '', $ppvod['vod_total']);</php>
+                                    <eq name="ppvod.vod_cid" value="4">期<else />集</eq>全<else /><notempty name="ppvod.vod_title">{$ppvod['vod_title']}<else />连载中,待更新</notempty>
+                                </notempty>
+                            </neq>
                         </notempty>
                     </a></h4>
                 </li>
